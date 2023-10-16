@@ -1,0 +1,12 @@
+dir /a:h /b /s, para saber si una carpeta tiene git.
+
+git init , Inicia git.
+git status, enseña el estado de git.
+cd .git, entro en la carpeta oculta de git.
+git add <file>, pasa el fichero a estado staged
+git rm --cached <file>, quita el fichero de stage y lo pone en untracked
+git config --global user.email "<email>", registra tu email.
+git config --global user.name "<name>", registra tu nombre
+git config --list, te muestra todo el contenido de git
+git commit -m "<lo que sea>" guarda el git
+git log, muestra el git

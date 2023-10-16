@@ -1,0 +1,6 @@
+Empresa
+info sobre empresa (nombre, cif), empleados y clientes(nombre, edad)
+empleados tienen sueldo bruto
+los empleados que son directivos tienen una categoria y un conjunto de empleados subordinados
+de los empleados tb se enecesitan los telefonos y contacto (email)
+necesitaras motrar datos de empleados y clientes

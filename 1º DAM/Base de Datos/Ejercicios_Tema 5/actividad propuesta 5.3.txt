@@ -1,0 +1,33 @@
+a)
+
+SELECT TLibro.cTitulo, TTema.cNombre
+	FROM TLibro, TLibroTema, TTema
+	WHERE TLibro.nLibroID = TLibroTema.nLibroID
+		AND TLibroTemaID.nTemaID = TTema.nTemaID
+		AND nEditiorialID = 32;
+
+b)
+
+SELECT TAutor.cNombre, TAutor.cApellidos, COUNT(*)
+	FROM TAutor, TLibroAutor
+		WHERE TAutor.nAutorID = TLibroAutor.nAutorID
+		GROUP BY TAutor.cNombre, TAutor.cApellidos;
+
+c)
+
+SELECT TAutor.cNombre, TAutor.cApellidos, MIN(TLibro.nAnyoPublicacion)
+	FROM TAutor, TLibroAutor, TLibro
+		WHERE TLibroAutor.nAutorID = TAutor.nAutorID
+			AND  TLibro.nLibroID = TLibroAutor.nLibroID
+		GROUP BY TAutor.cNombre, TAutor.cApellidos;
+
+d)
+
+SELECT TLibro.cTitulo, TSocio.cNombre, TSocio.cApellidos
+	FROM TSocio, TLibro, TPrestamo, TEjemplar
+		WHERE TEjemplar.nLibroID = TLibro.nLibroID
+			AND TPrestamo.cSignatura = TEjemplar.cSignatura
+			AND TSocio.cNIF = TPrestamo.cNIF;
+		
+
+

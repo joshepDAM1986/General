@@ -1,0 +1,392 @@
+DDLs
+====
+
+CREATE USER C##PRUEBAS IDENTIFIED BY <password>;
+       - Crea un usuario con la clave que le demos (se pone sin el '<' y '>').
+
+GRANT CREATE SESSION, ALTER SESSION, CREATE DATABASE LINK, CREATE MATERIALIZED VIEW, CREATE PROCEDURE,
+ CREATE PUBLIC SYNONYM, CREATE ROLE, CREATE SEQUENCE, CREATE SYNONYM, CREATE TABLE, CREATE TRIGGER, 
+ CREATE TYPE, CREATE VIEW, UNLIMITED TABLESPACE TO C##PRUEBAS;
+	   - Le asigna permisos al usuario.
+
+CONNECT C##PRUEBAS/<password>
+       - Se conecta con un usuario (la clave va sin '<' y '>').
+
+CREATE TABLE TPRUEBAS (NOMBRE VARCHAR2(10), APELLIDOS VARCHAR2(30));
+       - Crea una tabla con los campos y definiciones dados.
+
+ALTER TABLE TPRUEBAS ADD | MODIFY | DROP NOMBRE VARCHAR2(20) NOT NULL;
+       - Solo se pone ADD o MODIFY o DROP según queramos añadir un campo, modificar o
+         elimitar uno ya existente.
+
+DMLs
+====
+
+INSERT INTO TPRUEBAS [(NOMBRE)] VALUES ('David');
+       - Como hay más de un campo, hay que poner el campo por fuerza.
+
+INSERT INTO TPRUEBAS VALUES ('David','Rodriguez');
+       - Como hay 2 campos y damos 2 valores, no hay que poner los campos.
+
+UPDATE TPRUEBAS SET APELLIDOS='Quesadilla' WHERE NOMBRE LIKE 'Pa%';
+       - Actualiza el apellido de aquellos registros cuyo campo nombre empiece por
+         'Pa'
+DELETE TPRUEBAS WHERE NOMBRE='Luis';
+       - Borra todos los registros cuyo nombre sea 'Luis'.
+		
+SELECT NOMBRE FROM TPRUEBAS;
+       - Solo se nos muestra el campo NOMBRE, pero de todos los registros (no hay
+         condición).
+		 
+SELECT * FROM TPRUEBAS WHERE NOMBRE='Antonio' AND APELLIDOS='Rodriguez' OR NOMBRE='Pablo';
+       - Se nos muestran todos los campos de aquellos registros que verifiquen la primera
+         y segunda condición, O que verifiquen la tercera.
+		 
+SELECT * FROM TAMIGOS, TCIUDADES WHERE CCODIGO_CIUDAD = CCODIGO_CIUDADID;
+		 - Hacemos un select de las 2 tablas, pero con una condición sobre el campo que las
+        enlaza.
+
+SELECT * FROM TAMIGOS, TCIUDADES WHERE TAMIGOS.CCODIGO_CIUDAD = TCIUDADES.CCODIGO_CIUDADID;
+		 - Para evitar posible confusiones entre nombres de campos, a veces es necesario
+        anteponer los nombres de las tablas a los nombres de los campos (se separan por
+        un '.'). OJO: En este caso no es necesario!
+
+SELECT * FROM TAMIGOS, TCIUDADES WHERE TAMIGOS.CCODIGO_CIUDAD = TCIUDADES.CCODIGO_CIUDADID ORDER BY CNOMBRE;
+		 - Ordena las ocurrencias que verifican las condiciones por el campo nombre  (haya
+        o no haya un índice previamente creado).
+
+SELECT A.CNOMBRE, A.CAPELLIDOS, B.CNOMBRE_CIUDAD FROM TAMIGOS A, TCIUDADES B WHERE A.CCOD_CIUDAD = B.CCOD_CIUDADID;
+		 - Para ahorrarnos poner el nombre completo cada vez que se usa un campo, se puede
+        usar un alias que se indica en el 'from' después del nombre de la tabla.
+
+DROP TABLE TPRUEBAS;
+       - Borramos la tabla tpruebas (la tabla completa, no el contenido).
+
+
+
+30/01/2023
+==========
+   
+SQL> select ttema.cnombre from ttema, tlibro_tema where ttema.ntemaid = tlibro_tema.ntemaid;
+
+CNOMBRE
+---------------
+Efemerides
+Chulisimos
+Chorradas
+Casa
+
+SQL> select cnombre from ttema inner join tlibro_tema on tlibro_tema.ntemaid = ttema.ntemaid;
+
+CNOMBRE
+---------------
+Efemerides
+Chulisimos
+Chorradas
+Casa
+
+SQL> select a.ctitulo, b.cnombre from tlibro a, teditorial b where b.neditorialid=a.neditorialid;
+
+CTITULO                        CNOMBRE
+------------------------------ ---------------
+Libro Efemerides               Planeta
+Libros Chulisimos              Planet
+Libros Chorradas               Planete
+Libro Casa                     Planetoid
+
+
+where
+SQL> select tlibro.ctitulo, teditorial.cnombre, tpais.cnombrepais from tlibro, teditorial, tpais where tpais.ccodpais=teditorial.ccodpais and tlibro.neditorialid=teditorial.neditorialid;
+
+CTITULO                        CNOMBRE                        CNOMBREPAI
+------------------------------ ------------------------------ ----------
+Libro Efemerides               Planeta                        España
+Libros Chulisimos              Planet                         China
+Libros Chorradas               Planetoid                      Alemania
+Libro Casa                     Planeta2                       España
+
+
+lesft join
+SQL> select tlibro.ctitulo, teditorial.cnombre, tpais.cnombrepais from tlibro left join teditorial on teditorial.neditorialid=tlibro.neditorialid left join tpais on tpais.ccodpais=teditorial.ccodpais;
+
+CTITULO                        CNOMBRE                        CNOMBREPAI
+------------------------------ ------------------------------ ----------
+Libro Efemerides               Planeta                        España
+Libro Casa                     Planeta2                       España
+Libros Chulisimos              Planet                         China
+Libros Chorradas               Planetoid                      Alemania
+
+right join
+SQL> select tlibro.ctitulo, teditorial.cnombre, tpais.cnombrepais from tlibro right join teditorial on teditorial.neditorialid=tlibro.neditorialid right join tpais on tpais.ccodpais=teditorial.ccodpais;
+
+CTITULO                        CNOMBRE                        CNOMBREPAI
+------------------------------ ------------------------------ ----------
+Libro Efemerides               Planeta                        España
+Libros Chulisimos              Planet                         China
+Libros Chorradas               Planetoid                      Alemania
+Libro Casa                     Planeta2                       España
+
+full join
+SQL> select tlibro.ctitulo, teditorial.cnombre, tpais.cnombrepais from tlibro full join teditorial on teditorial.neditorialid=tlibro.neditorialid full join tpais on tpais.ccodpais=teditorial.ccodpais;
+
+CTITULO                        CNOMBRE                        CNOMBREPAI
+------------------------------ ------------------------------ ----------
+Libro Efemerides               Planeta                        España
+Libros Chulisimos              Planet                         China
+Libros Chorradas               Planetoid                      Alemania
+Libro Casa                     Planeta2                       España
+
+
+SQL> select nlibroid from tlibro;
+
+  NLIBROID
+----------
+         1
+         2
+         3
+         4
+
+SQL> select nlibroid from tlibro_tema;
+
+  NLIBROID
+----------
+         1
+         2
+         3
+         4
+
+SQL> select nlibroid from tlibro union select nlibroid from tlibro_tema; //saca los valores del campo nlibroid de las dos tablas sin repetir.
+
+  NLIBROID
+----------
+         1
+         2
+         3
+         4
+
+SQL> select nlibroid from tlibro union all select nlibroid from tlibro_tema; //saca todos los valores del campo nlibroid de las dos tablas.
+
+  NLIBROID
+----------
+         1
+         2
+         3
+         4
+         1
+         2
+         3
+         4
+
+8 filas seleccionadas.
+
+SQL> select nlibroid from tlibro minus select nlibroid from tlibro_tema; //muestra los valores del campo nlibroid de la primera tabla que no están en la segunda tabla.
+
+ninguna fila seleccionada
+
+SQL> select nlibroid from tlibro intersect select nlibroid from tlibro_tema; //muestra los valores
+
+  NLIBROID
+----------
+         1
+         2
+         3
+         4
+---------------
+03/02/2023
+---------------
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Vie Feb 3 12:11:13 2023
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Introduzca el nombre de usuario: system/468520
+Hora de ┌ltima Conexi¾n Correcta: Vie Feb 03 2023 12:09:51 +01:00
+
+Conectado a:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> create user c##pruebas identified by 468520;
+
+Usuario creado.
+
+SQL> grant all privileges to c##pruebas;
+
+Concesi¾n terminada correctamente.
+
+SQL> connect c##pruebas/468520
+Conectado.
+
+SQL> create table tlibro (nlibroid numeric(5) primary key, ctitulo varchar2(40), nanyopublicacion numeric(4), neditorialid numeric(5));
+
+Tabla creada.
+
+SQL> create table teditorial (neditorialid numeric(5) primary key, cnombre varchar2(40), npaisid numeric(4));
+
+Tabla creada.
+
+SQL> create table tpais (npaisid numeric(4) primary key, cnombre varchar2(30));
+
+Tabla creada.
+
+SQL> desc teditorial;
+ Nombre                                    ┐Nulo?   Tipo
+ ----------------------------------------- -------- ----------------------------
+ NEDITORIALID                              NOT NULL NUMBER(5)
+ CNOMBRE                                            VARCHAR2(40)
+ NPAISID                                            NUMBER(4)
+
+SQL> insert into teditorial values (1,'Alfaguara','');
+
+1 fila creada.
+
+SQL> insert into teditorial values (2,'Eldelvives','');
+
+1 fila creada.
+
+SQL> insert into teditorial values (3,'Planeta','');
+
+1 fila creada.
+
+SQL> insert into teditorial values (4,'Santillana','');
+
+1 fila creada.
+
+SQL> insert into teditorial values (5,'El barco de Alejandro','');
+
+1 fila creada.
+
+SQL> commit;
+
+Confirmaci¾n terminada.
+
+SQL> insert into tlibro values (1,'Fray Perico y su borrico',1940,1);
+
+1 fila creada.
+
+SQL> insert into tlibro values (2,'El señor de los marranillos',1965,2);
+
+1 fila creada.
+
+SQL> insert into tlibro values (3,'Harry Potter',1980,3);
+
+1 fila creada.
+
+SQL> insert into tlibro values (4,'Kamasutra',1351,4);
+
+1 fila creada.
+
+SQL> insert into tlibro values (5,'Lo que el viento no se llevó',1993,5);
+
+1 fila creada.
+
+SQL> desc tlibro;
+ Nombre                                    ┐Nulo?   Tipo
+ ----------------------------------------- -------- ----------------------------
+ NLIBROID                                  NOT NULL NUMBER(5)
+ CTITULO                                            VARCHAR2(40)
+ NANYOPUBLICACION                                   NUMBER(4)
+ NEDITORIALID
+
+update tlibro set neditorialid=1 where neditorialid like 5;
+
+1 fila actualizada.
+
+SQL> commit;
+
+Confirmaci¾n terminada.
+
+SQL> select ctitulo from tlibro where nlibroid in (1,2,3);
+
+CTITULO
+----------------------------------------
+Fray Perico y su borrico
+El señor de los marranillos
+Harry Potter
+
+SQL> select * from teditorial; 
+
+NEDITORIALID CNOMBRE                                     NPAISID
+------------ ---------------------------------------- ----------
+           1 Alfaguara
+           2 Eldelvives
+           3 Planeta
+           4 Santillana
+           5 El barco de Alejandro
+
+SQL> select ctitulo from tlibro where nlibroid in (select neditorialid from teditorial where cnombre like '%es%');
+
+CTITULO
+----------------------------------------
+El señor de los marranillos //Su editorial es Eldelvives que contiene la cadena "es".
+
+SQL> select ctitulo from tlibro, teditorial where tlibro.neditorialid = tedi
+torial.neditorialid and teditorial.cnombre like '%a%';
+
+CTITULO
+----------------------------------------
+Fray Perico y su borrico
+Harry Potter
+Kamasutra
+Lo que el viento no se llevóinsert
+
+SQL> insert into ttemp (select * from tlibro);
+
+5 filas creadas.
+
+SQL> commit;
+
+Confirmaci¾n terminada.
+
+SQL> select * from ttemp;
+
+  NLIBROID CTITULO                                  NANYOPUBLICACION NEDITORIALID
+---------- ---------------------------------------- ---------------- ------------
+         1 Fray Perico y su borrico                             1940            1
+         2 El señor de los marranillos                          1965            2
+         3 Harry Potter                                         1980            3
+         4 Kamasutra                                            1351            4
+         5 Lo que el viento no se llevó                         1993            1
+         1 Fray Perico y su borrico                             1940            1
+         2 El señor de los marranillos                          1965            2
+         3 Harry Potter                                         1980            3
+         4 Kamasutra                                            1351            4
+         5 Lo que el viento no se llevó                         1993            1
+		 
+//No se implementan las restriciones de la tabla a copiar
+		 
+SQL> insert into ttemp (select 11,'11',11,11 from tlibro);
+
+
+5 filas creadas.
+
+select * from ttemp;
+
+  NLIBROID CTITULO                                  NANYOPUBLICACION NEDITORIALID
+---------- ---------------------------------------- ---------------- ------------
+         1 Fray Perico y su borrico                             1940            1
+         2 El señor de los marranillos                          1965            2
+         3 Harry Potter                                         1980            3
+         4 Kamasutra                                            1351            4
+         5 Lo que el viento no se llevó                         1993            1
+         1 Fray Perico y su borrico                             1940            1
+         2 El señor de los marranillos                          1965            2
+         3 Harry Potter                                         1980            3
+         4 Kamasutra                                            1351            4
+         5 Lo que el viento no se llevó                         1993            1
+        11 11                                                     11           11
+
+  NLIBROID CTITULO                                  NANYOPUBLICACION NEDITORIALID
+---------- ---------------------------------------- ---------------- ------------
+        11 11                                                     11           11
+        11 11                                                     11           11
+        11 11                                                     11           11
+        11 11                                                     11           11
+
+15 filas seleccionadas.
+
+SQL> commit;
+
+Confirmaci¾n terminada.
+

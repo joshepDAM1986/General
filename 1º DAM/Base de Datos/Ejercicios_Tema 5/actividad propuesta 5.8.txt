@@ -1,0 +1,4 @@
+SELECT TEditorial.cNombre AS "Nombre", TPais.cNombre AS "País"
+	FROM TEditorial
+	INNER JOIN TPais
+		ON TEditorial.nPaisID = TPais.nPaisID;

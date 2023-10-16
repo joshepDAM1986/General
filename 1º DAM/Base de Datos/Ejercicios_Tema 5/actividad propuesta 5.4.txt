@@ -1,0 +1,38 @@
+a)
+
+SELECT TLibro.cTitulo, TTema.cNombre
+	FROM TLibro
+	INNER JOIN TLibroTema
+		ON TLibro.nLibroID = TLibroTema.nLibroID
+	INNER JOIN TTema
+		ON TLibroTema.nTemaID = TTema.nTemaID
+	WHERE TLibro.nEditorialID = 32;
+
+b)
+
+SELECT TAutor.cNombre, TAutor.cApellidos, COUNT(*)
+	FROM TAutor
+	INNER JOIN TLibroAutor
+		ON TAutor.nAutorID = TLibroAutor.nAutorID
+	GROUP BY TAutor.cNombre, TAutor.cApellidos;
+
+c)
+
+SELECT TAutor.cNombre, TAutor.cApellidos, MIN(TLibro.nAnyoPublicacion)
+	FROM TAutor
+	INNER JOIN TLibroAutor
+		ON TAutor.nAutorID = TLibroAutor.nAutorID
+	INNER JOIN TLibro
+		ON TLibroAutor.nLibroID = TLibro.nLibroID
+	GROUP BY TAutor.cNombre, TAutor.cApellidos;
+
+d)
+
+SELECT TLibro.cTitulo, TSocio.cNombre, TSocio.cApellidos
+	FROM TPrestamo
+	INNER JOIN TSocio
+		ON TPrestamo.cNIF = TSocio.cNIF
+	INNER JOIN TEjemplar
+		ON TPrestamo.cSignatura = TEjemplar.cSignatura
+	INNER JOIN TLibro
+		ON TEjemplar.nLibroID = TLibro.nLibroID; 

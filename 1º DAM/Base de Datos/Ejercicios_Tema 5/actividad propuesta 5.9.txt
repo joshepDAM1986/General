@@ -1,0 +1,2 @@
+SELECT cNombre || ' ' || cApellidos || ' ' || '(' || LENGTH(cNombre || ' ' || cApellidos) || ')' AS "Socio", cNIF AS "NIF"
+	FROM TSocio;

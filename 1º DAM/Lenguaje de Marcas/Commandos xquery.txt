@@ -1,0 +1,70 @@
+Mostrar precio de los litchis en xQuery
+
+<html>
+<body>
+<h1> Probando xQuery</h1>
+{
+for $x in (/vivero/especie)
+where $x/nombre="Litchi"
+order by $x/precio
+return $x/precio
+}
+</body>
+</html>
+
+Mostrar precio de los litchis en xQuery sin etiquetas
+
+<html>
+<body>
+<h1> Probando xQuery</h1>
+{
+for $x in (/vivero/especie)
+where $x/nombre="Litchi"
+order by $x/precio
+return string($x/precio)
+}
+</body>
+</html>
+--------------------------
+<html>
+<body>
+<h1> Probando xQuery</h1>
+{
+for $x in (/vivero/especie)
+where $x/nombre="Litchi"
+order by $x/precio
+return data($x/precio)
+}
+</body>
+</html>
+
+Meses maduracion de las frutas con precio mayor 9
+
+for $x in /vivero/especie
+let $valor:=$x/precio
+where $valor>9
+return $x/otros_datos/maduracion
+
+Otros datos de Litchis precio mayor a 10
+
+for $x in /vivero/especie
+where $x/precio>10 and $x/nombre="Litchi"
+return $x/otros_datos
+
+campo origen especies cuyo siembra fue en 2018
+
+for $x in /vivero/especie
+where $x/@siembra=2018
+return $x/origen
+
+suma del precio de las especies que se sembraron a partir en 2010
+
+sum (for $x in /vivero/especie
+where $x/@siembra>2010
+return $x/precio)
+
+Nombfre de las frutas que empiecen por "Lo"
+
+for $x in /vivero/especie
+where starts-with ($x/nombre, "Lo")
+return $x/nombre

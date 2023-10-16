@@ -1,0 +1,39 @@
+Examenes 3er Trimestre:
+
+30 XSL*
+31 ObjectDB*
+
+05 Sistemas G.Info.*
+07 MySQL*
+
+12 MongoDB*
+13 Diagramas Test Tema 7 Sistemas Inf
+14 xPath y xQuery / Practico
+16 Recu ObectDB, entrega Web,Entrega UML
+
+org.junit.jupiter:junit:jupiter
+
+Tareas:
+
+1. Hacer un xml y un xsl que genere un html
+
+- Se hace con conversor JavaScript Online?
+
+- Tema libre
+
+- Tabla o lista
+
+- 20 filas
+
+- Mínimo 8 campos
+
+- 4 de texto y 4 numericos
+
+- Utilizar minimo 6 colores
+
+2. Batalla xml:
+
+Crear xml con un xsd
+
+
+

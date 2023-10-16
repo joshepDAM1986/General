@@ -1,0 +1,6 @@
+en java se tiene que implementar un programa que administre la informacion de los vehiculos y personas que los conducen cuando entran en un recinto privado. 
+De los vehiculos se desea almacenar su identificador ( numero entero), la matricula (cadena de caracteres) y la checha de matriculacion (fecha) y la persona 
+que lo conduce (clase persona). De los vehiculos que sean coches se desea almacenar el tipo de energia que los propulsa (enumerado: GASOLINA, DIESEL, ELECTRICO, 
+HIBRIDO). De las personas se dea almacenar su nombre (cadena caracteres) y su DNI (cadena caracteres). de aquellas personas que ademas sean trabajadores se desea 
+almacenar su numero de registro (numero entero). Implementa las clases entidad que permitan manejar y volcar esta informacion en una base de datos denominada 
+control, asi como un programa que añada los datos de 4 vehiculos (dos de ellos coches) y 4 conductores (2 de ellos trabajadores) utilizar para ello la libreria objectDB.

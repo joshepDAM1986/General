@@ -1,0 +1,154 @@
+create table tlibro (
+	nLibroID numeric(5) PRIMARY KEY,
+	cTitulo varchar2(40),
+	nAnyoPublicacion numeric(4),
+	nEditorialID numeric(5)
+);
+
+create table teditorial (
+	nEditorialID numeric(5) PRIMARY KEY,
+	cNombre varchar2(40),
+	nPaisID numeric(4)
+);
+
+create table tpais (
+	nPaisID numeric(4) PRIMARY KEY,
+	cNombre varchar2(30)
+);
+
+create table TTema (
+	nTemaID numeric(3) PRIMARY KEY,
+	cNombre varchar2(20)
+);
+
+create table TLibroTema (
+	nLibroID numeric(5),
+	nTemaID numeric(3)
+);
+
+create table TEjemplar (
+	cSignatura char(9),
+	nLibroID numeric(5)
+);
+
+create table TPrestamo (
+	cSignatura char(9),
+	cNIF char(9),
+	dPrestamo date
+);
+
+create table TSocio (
+	cNIF char(9),
+	cNombre varchar2(20),
+	cApellidos varchar2(30),
+	cDireccion varchar2(40),
+	cTelefono char(9),
+	dNacimiento date,
+	dAlta date
+);
+
+create table TAutor (
+	nAutorID numeric(5),
+	cNombre varchar2(20),
+	cApellidos varchar2(30)
+);
+
+create table TLibroAutor (
+	nLibroID numeric(5),
+	nAutorID numeric(5)
+);
+
+create table tautorpais(
+	nautorid number(5), 
+	npaisid number(4)
+);
+
+insert into tautor values (1, 'Luis', 'González');
+insert into tautor values (2, 'Teresa', 'Pedraza');
+insert into tautor values (3, 'Emilia', 'Arroquia');
+insert into tautor values (4, 'Andrés', 'Lopera');
+insert into tautor values (5, 'Fulgencio', 'Ruiz');
+insert into tautor values (6, 'Pardillo', 'Pardíllez');
+
+insert into tlibroautor values (1, 1);
+insert into tlibroautor values (1, 2);
+insert into tlibroautor values (2, 2);
+insert into tlibroautor values (2, 3);
+insert into tlibroautor values (3, 3);
+insert into tlibroautor values (3, 4);
+insert into tlibroautor values (3, 5);
+insert into tlibroautor values (4, 1);
+insert into tlibroautor values (4, 5);
+insert into tlibroautor values (4, 2);
+insert into tlibroautor values (4, 3);
+insert into tlibroautor values (5, 3);
+
+insert into teditorial values (1, 'Alfaguara', '1');
+insert into teditorial values (2, 'Edelvives', '1');
+insert into teditorial values (3, 'Planeta', '2');
+insert into teditorial values (4, 'Santillana', '2');
+insert into teditorial values (5, 'El Barco de Alejandro', '3');
+
+insert into tlibro values (1, 'Fray Perico y su borrico', 1940, 1);
+insert into tlibro values (2, 'El señor de los marranillos', 1965, 2);
+insert into tlibro values (3, 'Harry Plotter 1', 1980, 4);
+insert into tlibro values (4, 'Kamasutra', 1351, 4);
+insert into tlibro values (5, 'Lo que el viento no se pudo llevar', 1923, 1);
+
+insert into ttema values (1, 'Historia');
+insert into ttema values (2, 'Biografía');
+insert into ttema values (3, 'Matemáticas');
+insert into ttema values (4, 'Lengua');
+insert into ttema values (5, 'Ficción');
+
+insert into tlibrotema values (1, 1);
+insert into tlibrotema values (2, 5);
+insert into tlibrotema values (3, 5);
+insert into tlibrotema values (4, 2);
+insert into tlibrotema values (5, 5);
+
+insert into tejemplar values ('123456789', 1);
+insert into tejemplar values ('123456780', 2);
+insert into tejemplar values ('123456781', 3);
+insert into tejemplar values ('123456782', 4);
+insert into tejemplar values ('123456783', 5);
+
+insert into tprestamo values ('123456789', '15474747P', '10/11/2020');
+insert into tprestamo values ('123456789', '43434343H', '10/11/2021');
+insert into tprestamo values ('123456789', '12121212H', '10/12/2011');
+insert into tprestamo values ('123456780', '43543534O', '05/12/2011');
+insert into tprestamo values ('123456780', '87878787P', '05/05/2015');
+insert into tprestamo values ('123456780', '87878787P', '05/05/2013');
+insert into tprestamo values ('123456789', '87878787P', '05/05/2013');
+
+insert into tpais values (1, 'España');
+insert into tpais values (2, 'Francia');
+insert into tpais values (3, 'Alemania');
+
+insert into tautorpais values (1, 1);
+insert into tautorpais values (1, 2);
+insert into tautorpais values (2, 1);
+insert into tautorpais values (3, 1);
+insert into tautorpais values (4, 2);
+insert into tautorpais values (5, 3);
+
+insert into tsocio values ('15474747P', 'Pepito', 'Juárez', 'C/ Sol', '666777888', '05/05/1986', '21/08/2020');
+insert into tsocio values ('12121212H', 'Laura', 'Pío', 'C/ Luna', '666999888', '05/07/1996', '01/08/2020');
+insert into tsocio values ('87878787P', 'Félix', 'Ramírez', 'C/ Estrellas', '644999888', '05/07/1999', '11/09/2020');
+insert into tsocio values ('43434343H', 'Pepe', 'Pérez', 'C/ Planeta', '644955888', '05/01/1998', '01/03/2020');
+insert into tsocio values ('43543534O', 'Sara', 'Serrano', 'C/ Marte', '611955988', '03/11/1988', '01/12/2020');
+insert into tsocio values ('43547799I', 'Laura', 'Serrano', 'C/ Marte', '611957711', '03/11/1988', '01/12/2021');
+
+commit;
+
+drop table tlibro;
+drop table teditorial;
+drop table tpais;
+drop table TTema;
+drop table TLibroTema;
+drop table TEjemplar;
+drop table TPrestamo;
+drop table TSocio;
+drop table TAutor;
+drop table TLibroAutor;
+drop table tautorpais;

@@ -1,0 +1,239 @@
+
+C:\Users\garci>cd C:\Program Files\MongoDB\Server\6.0\bin
+
+C:\Program Files\MongoDB\Server\6.0\bin>mongosh
+Current Mongosh Log ID: 64709b0784808dbb988796be
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.9.0
+Using MongoDB:          6.0.2
+Using Mongosh:          1.9.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-05-25T09:36:49.280+02:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use prueba
+
+switched to db prueba
+
+prueba> db.persona.find({nombre:'Enrique'})
+prueba> db.persona.find({nombre:{$eq:'Enrique'}})
+prueba> db.persona.find({nombre:{$in: ['Enrique', 'Fabio']}})
+
+db.persona.find({$or: [{nombre:'Enrique'}, {nombre:'Fabio'}]})
+
+db.restaurant.find({ borough: "Brooklyn" }).limit(10)
+db.restaurant.find({ borough: "Brooklyn" }).limit(10).skip(4)
+
+collectionName.renameCollection(newCollectionName)
+
+db.restaurant.find({$and: [{borough: "Bronx"}, {cuisine: {$ne:'Bakery'}}]})
+db.restaurant.find({$and: [{borough: "Bronx"}, {cuisine: {$not: /Bakery/i}}]})
+db.restaurant.find({borough:'Bronx', cuisine:{$ne:'Bakery'}}, {name:1, cuisine:1, borough:1})
+db.restaurant.find({grades:{$elemMatch:{'score':{$gt:90}}}})
+db.restaurant.find({grades:{$elemMatch:{'score':{$gt:90}}}}, {name:1, grades:1})
+db.restaurant.find({borough: "Bronx",cuisine: { $in: ["Chinese", "American"]}})
+
+
+
+//Restaurantes en Manhattan o en el Bronx con cocina judía. (mostrar nombre, localización, tipo de cocina y excluir el id del restaurante):
+
+// $in
+db.restaurant.find({borough: {$in: ["Manhattan","Bronx"]}, cuisine: "Jewish/Kosher"},{name:1, cuisine:1, borough:1, _id:0})
+// $or
+db.restaurant.find({$or: [{borough: "Manhattan"}, {borough: "Bronx"}], cuisine: "Jewish/Kosher"},{name:1, cuisine:1, borough:1, _id:0})
+
+
+//Restaurantes en Queens que no ofrezcan comida americana (mostrar nombre, localización, tipo de cocina y excluir el id del restaurante):
+db.restaurant.find({borough: "Queens", cuisine: {$ne: "American"}}, {name:1, borought:1, cuisine:1,_id:0})
+
+//Restaurantes que no sean de Manhattan que ofrezcan comida irlandesa (mostrar nombre, localización, tipo de cocina y excluir el id del restaurante):
+db.restaurant.find({borough: {$ne: "Manhattan"}, cuisine: "Irish"}, {name:1, borough:1, cuisine:1, _id:0})
+
+//Cambiamos cuisine: "American " por cuisine: "American"
+db.restaurant.updateMany({cuisine: "American "}, {$set: {cuisine:"American"}})
+
+//Cambiamos cuisine: "Jewish/Kosher" por cuisine: "Jewish"
+db.restaurant.updateMany({cuisine: "Jewish/Kosher"}, {$set: {cuisine:"Jewish"}})
+
+//Creamos documento Carlos
+ db.horas.insertMany([ { nombre: "Carlos", apellidos: "Ruiz", fecha: ["sab 20/05/23", "dom 21/05/23"]}])
+
+//Creamos el documento Fabiana
+db.horas.insertMany([ { nombre: "Fabiana", apellidos: "Sanchez", fecha: ["mi 10/05/23", "dom 14/05/23", "lun 15/05/23"]}])
+
+
+//Creamos 2 nuevos documentos del tirón
+db.horas.insertMany([ { nombre: "Josele", apellidos: "Garcia", fecha: ["lun 23/05/23", "ma 24/05/23"]},{ nombre:
+ "Enrique", apellidos: "Bullejos", fecha: ["mi 25/05/23", "ju 26/05/23", "vi 27/05/23"]}])
+ 
+ //Eliminar el primer elemento de un array dentro de un documento
+ db.horas.updateOne({nombre:"Carlos"}, {$pop: {fecha:-1}})
+ //Eliminar el último elemento de un array dentro de un documento
+ db.horas.updateOne({nombre:"Carlos"}, {$pop: {fecha:1}})
+ 
+ Añadimos nuevas fechas al documento Carlos
+ db.horas.updateOne({ nombre: "Carlos" },{ $push: { fecha: { $each: ["dom 28/05/23", "lun 29/05/23", "mar 30/05/23"] } } })
+ 
+5.3 Ejercicios resueltos mongoDB: >use prueba:
+ 
+1.Mostrar todos los documentos de la colección restaurants (u otra)
+db.restaurant.find({name:1, borough:1, cuisine:1, _id:0}))
+
+2.Mostrar nombre de restaurante, barrio y cocina de la colección restaurants (o los campos de otra colección)
+db.restaurant.find({},{name:1, borough:1, cuisine:1, _id:0})
+
+3.Mostrar los primeros 5 restaurantes del barrio Bronx.
+db.restaurant.find({borough:"Bronx"}).limit(5)
+
+3.1.Mostrar los siguientes 5 restaurantes del barrio Bronx.
+db.restaurant.find({borough:"Bronx"}).limit(5).skip(5)
+
+3.2.Mostrar los ultimos 5 restaurantes del barrio Bronx.
+db.restaurant.find({borough:"Bronx"}).limit(5).sort({"_id":-1})
+
+4.Mostrar los restaurantes con una longitud menor que -75.7541
+db.restaurant.find({ "address.coord.0": { $lt: -75.7541 } })
+
+5.Mostrar los restaurantes con una puntuación superior a 90
+db.restaurants.find({grades: {$elemMatch: {score: {$gt: 90}}}})
+
+6.Mostrar los restaurantes de comida American o Chinese del barrio Queens.
+db.restaurant.find({ cuisine: { $in: ["American", "Chinese"] }, borough: "Queens" })
+
+7.Mostrar los restaurantes con un grado “A” y puntuación 9 obtenida en fecha 2014-08-11T00:00:00Z
+????
+
+
+8.Inserta este documento y si ya existe lo actualiza
+db.persona.update({nombre:"Eustaquio"},{$set:{apellidos:"Lopez"}}, {upsert:true})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: ObjectId("647d9a432e1044b47094613e"),
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
+
+prueba> db.persona.update({nombre:"Eustaquio"},{$set:{apellidos:"Lopez"}}, {upsert:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+prueba>
+
+9.Propón un JSON para descargar (de algún repositorio OpenData o disponible en un API), 
+indícame la URL, si has de hacer algún proceso antes de importarlo en MongoDB, 
+cómo lo importas, dame un pantallazo del análisis exploratorio de ese JSON y 
+una query que harías contra ese JSON (la query en MongoDB, Compass o RmongoDB)
+????
+---------------------------05/06/2023-------------------------------------------
+Crear Coleccion de alumnos.
+Necesitamos saber su nombre, apellidos, edad, y notas de DAM y ciudad.
+prueba> db.createCollection("alumnos")
+{ ok: 1 }
+prueba> show collections
+alumnos
+horas
+persona
+restaurant
+prueba> db.alumnos.insertOne({nombre:"Jose Miguel", apellidos: "Garcia Navarro", edad:"37", notas:{SI:"9", Programacion:"7", LM:"8", Entornos:"9", BD:"7"}, ciudad:"Granada"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("647d9d87800c66f49be68eb8")
+}
+prueba> db.alumnos.insertOne({nombre:"Enrique", apellidos: "Palma Bullejos", edad:"31", notas:{SI:"9", Programacion:"9", LM:"10", Entornos:"7", BD:"8"}, ciudad:"Granada"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("647d9db8800c66f49be68eb9")
+}
+prueba> db.alumnos.insertOne({nombre:"David", apellidos: "Lomas Delgado", edad:"19", notas:{SI:"7", Programacion:"8", LM:"9", Entornos:"9", BD:"7"}, ciudad:"Granada"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("647d9de7800c66f49be68eba")
+}
+prueba> db.alumnos.find()
+[
+  {
+    _id: ObjectId("647d9d87800c66f49be68eb8"),
+    nombre: 'Jose Miguel',
+    apellidos: 'Garcia Navarro',
+    edad: '37',
+    notas: { SI: '9', Programacion: '7', LM: '8', Entornos: '9', BD: '7' },
+    ciudad: 'Granada'
+  },
+  {
+    _id: ObjectId("647d9db8800c66f49be68eb9"),
+    nombre: 'Enrique',
+    apellidos: 'Palma Bullejos',
+    edad: '31',
+    notas: { SI: '9', Programacion: '9', LM: '10', Entornos: '7', BD: '8' },
+    ciudad: 'Granada'
+  },
+  {
+    _id: ObjectId("647d9de7800c66f49be68eba"),
+    nombre: 'David',
+    apellidos: 'Lomas Delgado',
+    edad: '19',
+    notas: { SI: '7', Programacion: '8', LM: '9', Entornos: '9', BD: '7' },
+    ciudad: 'Granada'
+  }
+]
+prueba> db.alumnos.update({nombre:"Enrique"},{$set:{notas:{SI:"9", Programacion:"9", LM:"10", Entornos:"7", BD:"8", FOL:"10"}}},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+prueba> db.alumnos.update({nombre:"Enrique"},{$set:{notas:[{Asignatura:"SI",Nota:"9"},{Asignatura:"Programacion", nota:"9"},{asignatura:"LM", nota:"10"},{asignatura:"Entornos", nota:"7"}, {asignatura:"BD",nota:"8"}, {asignatura:"FOL", nota:"10"}]}},{upsert:true})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+prueba> db.alumnos.find()
+[
+  {
+    _id: ObjectId("647d9d87800c66f49be68eb8"),
+    nombre: 'Jose Miguel',
+    apellidos: 'Garcia Navarro',
+    edad: '37',
+    notas: { SI: '9', Programacion: '7', LM: '8', Entornos: '9', BD: '7' },
+    ciudad: 'Granada'
+  },
+  {
+    _id: ObjectId("647d9db8800c66f49be68eb9"),
+    nombre: 'Enrique',
+    apellidos: 'Palma Bullejos',
+    edad: '31',
+    notas: [
+      { Asignatura: 'SI', Nota: '9' },
+      { Asignatura: 'Programacion', nota: '9' },
+      { asignatura: 'LM', nota: '10' },
+      { asignatura: 'Entornos', nota: '7' },
+      { asignatura: 'BD', nota: '8' },
+      { asignatura: 'FOL', nota: '10' }
+    ],
+    ciudad: 'Granada'
+  },
+  {
+    _id: ObjectId("647d9de7800c66f49be68eba"),
+    nombre: 'David',
+    apellidos: 'Lomas Delgado',
+    edad: '19',
+    notas: { SI: '7', Programacion: '8', LM: '9', Entornos: '9', BD: '7' },
+    ciudad: 'Granada'
+  }
+]

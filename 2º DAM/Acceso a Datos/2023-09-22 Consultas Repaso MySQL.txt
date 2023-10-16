@@ -1,0 +1,337 @@
+DROP TABLE IF EXISTS PROYECCIONES;
+DROP TABLE IF EXISTS SALAS;
+DROP TABLE IF EXISTS PROYECCIONES;
+
+CREATE TABLE SALAS (
+    codigo VARCHAR(5) PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    capacidad INT NOT NULL,
+    filas INT NOT NULL
+);
+
+INSERT INTO SALAS (codigo, nombre, capacidad, filas)
+VALUES
+    ('S1', 'Africa', 125, 10),
+    ('S2', 'America', 255, 24),
+    ('S3', 'Europa', 136, 14),
+    ('S4', 'Asia', 85, 7),
+    ('S5', 'Oceania', 100, 10),
+    ('S6', 'Antartida', 150, 15);
+
+CREATE TABLE PELICULAS (
+    codigo VARCHAR(5) PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    calificacion VARCHAR(10),
+    nacionalidad VARCHAR(255)
+);
+
+INSERT INTO PELICULAS (codigo, nombre, calificacion, nacionalidad)
+VALUES
+    ('P1', 'Emoji: la película', 'TP', 'EEUU'),
+    ('P2', 'Spider-man: homecoming', '18', 'EEUU'),
+    ('P3', 'Paddington 2', '7', 'Francia'),
+    ('P4', 'El autor', '18', 'España'),
+    ('P5', 'Perfectos desconocidos', '18', 'España'),
+    ('P6', 'Resident Evil', '18', 'EEUU'),
+    ('P7', 'Tadeo Jones', 'TP', 'España');
+
+
+CREATE TABLE PROYECCIONES (
+    sala VARCHAR(5),
+    pelicula VARCHAR(5),
+    hora TIME,
+    ocupacion INT,
+    PRIMARY KEY (sala, Pelicula, Hora),
+    FOREIGN KEY (sala) REFERENCES SALAS(codigo),
+    FOREIGN KEY (pelicula) REFERENCES PELICULAS(codigo)
+);
+
+INSERT INTO PROYECCIONES (sala, pelicula, hora, ocupacion)
+VALUES
+    ('S1', 'P1', '12:00:00', 75),
+    ('S1', 'P1', '18:00:00', 84),
+    ('S1', 'P2', '23:00:00', 100),
+    ('S2', 'P3', '12:00:00', 89),
+    ('S2', 'P3', '18:00:00', 104),
+    ('S2', 'P3', '23:00:00', 200),
+    ('S3', 'P2', '17:00:00', 100),
+    ('S3', 'P2', '20:00:00', 120),
+    ('S4', 'P4', '12:00:00', 14),
+    ('S4', 'P4', '17:00:00', 60),
+    ('S4', 'P4', '20:00:00', 78),
+    ('S4', 'P6', '23:00:00', 80),
+    ('S1', 'P1', '23:00:00', 35),
+    ('S5', 'P4', '20:00:00', 16),
+    ('S3', 'P4', '12:00:00', 25),
+    ('S5', 'P1', '12:00:00', 100);
+
+1.SELECT `nombre` FROM `peliculas`;
+
+2.SELECT `calificacion` FROM `peliculas`;
+
+3.SELECT `nombre` FROM `peliculas` WHERE `calificacion` = null;
+
+4.SELECT `nombre`, `capacidad` FROM `salas` order by `capacidad`;
+
+5.SELECT S.codigo, S.nombre, S.capacidad, S.filas FROM SALAS S LEFT JOIN PROYECCIONES PR ON S.codigo = PR.sala WHERE PR.sala IS NULL;
+
+6.SELECT S.codigo , S.nombre , S.capacidad , S.filas , P.codigo , P.nombre , P.calificacion , P.nacionalidad FROM SALAS S LEFT JOIN PROYECCIONES PR ON S.codigo = PR.sala LEFT JOIN PELICULAS P ON PR.pelicula = P.codigo;
+
+7.SELECT pr.hora, SUM(pr.ocupacion) from proyecciones pr group by pr.hora;
+
+8.SELECT p.nombre from peliculas p left join proyecciones pr on p.codigo = pr.pelicula where pr.pelicula is NULL;
+
+9.SELECT p.nacionalidad, count(p.nacionalidad) from peliculas p;
+
+10.SELECT * from salas s join proyecciones pr on s.codigo = pr.sala join peliculas p on p.codigo = pr.pelicula where p.codigo = 'P1' or p.codigo = 'P2';
+
+11.SELECT p.nombre from peliculas p where p.calificacion > 7 or p.calificacion = 'TP';
+
+12.SELECT * from proyecciones pr join peliculas p on p.codigo = pr.pelicula where p.calificacion = 'TP';
+
+13.SELECT p.nacionalidad, p.nombre, pr.hora from peliculas p join proyecciones pr on p.codigo = pr.pelicula;
+
+14.SELECT p.nombre from peliculas p join proyecciones pr on p.codigo = pr.pelicula where pr.hora between '09:00' and '12:00';
+
+15.SELECT * from salas s left join proyecciones pr on s.codigo = pr.sala and pr.hora = '12:00' where pr.pelicula is null;
+
+16.SELECT s.nombre, max(pr.ocupacion) from salas s left join proyecciones pr on s.codigo = pr.sala and pr.hora = '23:00';
+
+17.SELECT p.nombre, pr.hora, sum(pr.ocupacion) from peliculas p join proyecciones pr on p.codigo=pr.pelicula group by pr.ocupacion desc limit 1;
+
+18.SELECT p.nacionalidad, count(p.nacionalidad) from peliculas p group by p.nacionalidad order by p.nacionalidad asc limit 1;
+
+19.1SELECT pr.*, s.capacidad, coalesce(s.capacidad-pr.ocupacion) as Entradas_Disponibles from proyecciones pr right join salas s on pr.sala = s.codigo;
+19.2SELECT pr.*, s.capacidad,(s.capacidad-pr.ocupacion) as EntradasDisponibles from proyecciones pr right join salas s on pr.sala = s.codigo;
+
+20.SELECT SUM(PR.ocupacion * 6.5) FROM PROYECCIONES PR;
+
+21.SELECT p.nombre, SUM(pr.ocupacion * 6.5) AS RecaudacionTotal FROM PROYECCIONES pr JOIN PELICULAS p ON pr.pelicula = p.codigo GROUP BY p.nombre ORDER BY RecaudacionTotal DESC LIMIT 1;
+
+22.SELECT SUM(capacidad) AS CapacidadTotal FROM SALAS;
+
+23.UPDATE SALAS SET capacidad = 200 WHERE codigo = 'S3';
+
+24.SELECT PR.sala, PR.hora, P.* FROM PROYECCIONES PR JOIN PELICULAS P ON PR.pelicula = P.codigo;
+
+25.SELECT P.nombre, COUNT(*)FROM PROYECCIONES PR JOIN PELICULAS P ON PR.pelicula = P.codigo GROUP BY P.nombre ORDER BY Proyecciones DESC;
+
+26.SELECT s.nombre AS Sala, SUM(pr.ocupacion * 6.5) AS Recaudacion FROM SALAS s LEFT JOIN PROYECCIONES pr ON s.codigo = pr.sala GROUP BY s.nombre;
+
+27.SELECT p.nombre AS Pelicula FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula JOIN SALAS s ON pr.sala = s.codigo WHERE s.nombre IN ('África', 'Europa') GROUP BY p.nombre HAVING COUNT(DISTINCT s.nombre) = 2;
+
+28.SELECT p.nombre AS Pelicula, COUNT(pr.pelicula) AS Vistas FROM PELICULAS p LEFT JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nombre ORDER BY Vistas DESC;
+
+29.SELECT pr.*, s.capacidad - pr.ocupacion AS EntradasDisponibles FROM PROYECCIONES pr JOIN SALAS s ON pr.sala = s.codigo WHERE s.capacidad - pr.ocupacion > 0;
+
+30.SELECT pr.sala, pr.pelicula, pr.hora, (s.capacidad - pr.ocupacion) AS EntradasDisponibles FROM PROYECCIONES pr JOIN SALAS s ON pr.sala = s.codigo;
+
+31.ALTER TABLE PELICULAS ADD precio_entrada DECIMAL(5, 2);
+
+32.ALTER TABLE SALAS ADD planta VARCHAR(10);
+
+33.ALTER TABLE SALAS MODIFY capacidad DECIMAL(5, 2);
+
+34.UPDATE PROYECCIONES SET ocupacion = ocupacion + 15 WHERE sala = 'S1' AND pelicula = 'P1' AND hora = '12:00';
+
+35.INSERT INTO PROYECCIONES (sala, pelicula, hora, ocupacion) VALUES ('S4', 'P4', '00:00', 0);
+
+36.SELECT s.nombre AS Sala, SUM(pr.ocupacion) AS TotalPersonas FROM SALAS s LEFT JOIN PROYECCIONES pr ON s.codigo = pr.sala GROUP BY s.nombre ORDER BY TotalPersonas;
+
+37.SELECT pr.sala, pr.pelicula, pr.hora, (s.capacidad - pr.ocupacion) AS EntradasDisponibles FROM PROYECCIONES pr JOIN SALAS s ON pr.sala = s.codigo WHERE s.capacidad - pr.ocupacion > 0 ORDER BY EntradasDisponibles DESC;
+
+38.SELECT s.nombre AS Sala, SUM(pr.ocupacion) AS TotalPersonas FROM SALAS s LEFT JOIN PROYECCIONES pr ON s.codigo = pr.sala GROUP BY s.nombre HAVING SUM(pr.ocupacion) > 300;
+
+39.SELECT p.nacionalidad AS Nacionalidad, SUM(pr.ocupacion * 6.5) AS Recaudacion FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nacionalidad HAVING SUM(pr.ocupacion * 6.5) > 2000;
+
+40.SELECT p.nombre AS Pelicula, SUM(pr.ocupacion * 6.5) AS RecaudacionPotencial FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nombre;
+
+41.SELECT p.nombre AS Pelicula, SUM(pr.ocupacion * 6.5) AS RecaudacionPotencial FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nombre HAVING SUM(pr.ocupacion * 6.5) > 3000;
+
+42.SELECT p.calificacion AS Categoria, SUM(pr.ocupacion) AS EntradasVendidas FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.calificacion;
+
+43.SELECT p.nombre AS Pelicula, SUM(s.capacidad - pr.ocupacion) AS EntradasDisponibles FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula JOIN SALAS s ON pr.sala = s.codigo GROUP BY p.nombre HAVING SUM(s.capacidad - pr.ocupacion) > 300;
+
+44.ALTER TABLE PROYECCIONES ADD hora_finalizacion TIME;
+
+45.ALTER TABLE SALAS MODIFY filas INT(5);
+
+46.DELETE FROM SALAS WHERE codigo IN (SELECT DISTINCT sala FROM PROYECCIONES pr JOIN PELICULAS p ON pr.pelicula = p.codigo WHERE p.calificacion = 'TP');
+
+47.ALTER TABLE PELICULAS DROP COLUMN nacionalidad;
+
+48.ALTER TABLE PELICULAS ADD duracion TIME;
+
+49.UPDATE PELICULAS SET calificacion = 'NR-13' WHERE calificacion IS NULL;
+
+50.UPDATE PROYECCIONES SET hora = '12:30' WHERE hora = '12:00';
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS PROYECCIONES;
+DROP TABLE IF EXISTS SALAS;
+DROP TABLE IF EXISTS PROYECCIONES;
+
+CREATE TABLE SALAS (
+    codigo VARCHAR(5) PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    capacidad INT NOT NULL,
+    filas INT NOT NULL
+);
+
+INSERT INTO SALAS (codigo, nombre, capacidad, filas)
+VALUES
+    ('S1', 'Africa', 125, 10),
+    ('S2', 'America', 255, 24),
+    ('S3', 'Europa', 136, 14),
+    ('S4', 'Asia', 85, 7),
+    ('S5', 'Oceania', 100, 10),
+    ('S6', 'Antartida', 150, 15);
+
+CREATE TABLE PELICULAS (
+    codigo VARCHAR(5) PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    calificacion VARCHAR(10),
+    nacionalidad VARCHAR(255)
+);
+
+INSERT INTO PELICULAS (codigo, nombre, calificacion, nacionalidad)
+VALUES
+    ('P1', 'Emoji: la película', 'TP', 'EEUU'),
+    ('P2', 'Spider-man: homecoming', '18', 'EEUU'),
+    ('P3', 'Paddington 2', '7', 'Francia'),
+    ('P4', 'El autor', '18', 'España'),
+    ('P5', 'Perfectos desconocidos', '18', 'España'),
+    ('P6', 'Resident Evil', '18', 'EEUU'),
+    ('P7', 'Tadeo Jones', 'TP', 'España');
+
+
+CREATE TABLE PROYECCIONES (
+    sala VARCHAR(5),
+    pelicula VARCHAR(5),
+    hora TIME,
+    ocupacion INT,
+    PRIMARY KEY (sala, Pelicula, Hora),
+    FOREIGN KEY (sala) REFERENCES SALAS(codigo),
+    FOREIGN KEY (pelicula) REFERENCES PELICULAS(codigo)
+);
+
+INSERT INTO PROYECCIONES (sala, pelicula, hora, ocupacion)
+VALUES
+    ('S1', 'P1', '12:00:00', 75),
+    ('S1', 'P1', '18:00:00', 84),
+    ('S1', 'P2', '23:00:00', 100),
+    ('S2', 'P3', '12:00:00', 89),
+    ('S2', 'P3', '18:00:00', 104),
+    ('S2', 'P3', '23:00:00', 200),
+    ('S3', 'P2', '17:00:00', 100),
+    ('S3', 'P2', '20:00:00', 120),
+    ('S4', 'P4', '12:00:00', 14),
+    ('S4', 'P4', '17:00:00', 60),
+    ('S4', 'P4', '20:00:00', 78),
+    ('S4', 'P6', '23:00:00', 80),
+    ('S1', 'P1', '23:00:00', 35),
+    ('S5', 'P4', '20:00:00', 16),
+    ('S3', 'P4', '12:00:00', 25),
+    ('S5', 'P1', '12:00:00', 100);
+
+SELECT `nombre` FROM `peliculas`;
+
+SELECT `calificacion` FROM `peliculas`;
+
+SELECT `nombre` FROM `peliculas` WHERE `calificacion` = null;
+
+SELECT `nombre`, `capacidad` FROM `salas` order by `capacidad`;
+
+SELECT S.codigo, S.nombre, S.capacidad, S.filas FROM SALAS S LEFT JOIN PROYECCIONES PR ON S.codigo = PR.sala WHERE PR.sala IS NULL;
+
+SELECT S.codigo , S.nombre , S.capacidad , S.filas , P.codigo , P.nombre , P.calificacion , P.nacionalidad FROM SALAS S LEFT JOIN PROYECCIONES PR ON S.codigo = PR.sala LEFT JOIN PELICULAS P ON PR.pelicula = P.codigo;
+
+SELECT pr.hora, SUM(pr.ocupacion) from proyecciones pr group by pr.hora;
+
+SELECT p.nombre from peliculas p left join proyecciones pr on p.codigo = pr.pelicula where pr.pelicula is NULL;
+
+SELECT p.nacionalidad, count(p.nacionalidad) from peliculas p;
+
+SELECT * from salas s join proyecciones pr on s.codigo = pr.sala join peliculas p on p.codigo = pr.pelicula where p.codigo = 'P1' or p.codigo = 'P2';
+
+SELECT p.nombre from peliculas p where p.calificacion > 7 or p.calificacion = 'TP';
+
+SELECT * from proyecciones pr join peliculas p on p.codigo = pr.pelicula where p.calificacion = 'TP';
+
+SELECT p.nacionalidad, p.nombre, pr.hora from peliculas p join proyecciones pr on p.codigo = pr.pelicula;
+
+SELECT p.nombre from peliculas p join proyecciones pr on p.codigo = pr.pelicula where pr.hora between '09:00' and '12:00';
+
+SELECT * from salas s left join proyecciones pr on s.codigo = pr.sala and pr.hora = '12:00' where pr.pelicula is null;
+
+SELECT s.nombre, max(pr.ocupacion) from salas s left join proyecciones pr on s.codigo = pr.sala and pr.hora = '23:00';
+
+SELECT p.nombre, pr.hora, sum(pr.ocupacion) from peliculas p join proyecciones pr on p.codigo=pr.pelicula group by pr.ocupacion desc limit 1;
+
+SELECT p.nacionalidad, count(p.nacionalidad) from peliculas p group by p.nacionalidad order by p.nacionalidad asc limit 1;
+
+SELECT pr.*, s.capacidad, coalesce(s.capacidad-pr.ocupacion) as Entradas_Disponibles from proyecciones pr right join salas s on pr.sala = s.codigo;
+SELECT pr.*, s.capacidad,(s.capacidad-pr.ocupacion) as EntradasDisponibles from proyecciones pr right join salas s on pr.sala = s.codigo;
+
+SELECT SUM(PR.ocupacion * 6.5) FROM PROYECCIONES PR;
+
+SELECT p.nombre, SUM(pr.ocupacion * 6.5) AS RecaudacionTotal FROM PROYECCIONES pr JOIN PELICULAS p ON pr.pelicula = p.codigo GROUP BY p.nombre ORDER BY RecaudacionTotal DESC LIMIT 1;
+
+SELECT SUM(capacidad) AS CapacidadTotal FROM SALAS;
+
+UPDATE SALAS SET capacidad = 200 WHERE codigo = 'S3';
+
+SELECT PR.sala, PR.hora, P.* FROM PROYECCIONES PR JOIN PELICULAS P ON PR.pelicula = P.codigo;
+
+SELECT P.nombre, COUNT(*)FROM PROYECCIONES PR JOIN PELICULAS P ON PR.pelicula = P.codigo GROUP BY P.nombre ORDER BY Proyecciones DESC;
+
+SELECT s.nombre AS Sala, SUM(pr.ocupacion * 6.5) AS Recaudacion FROM SALAS s LEFT JOIN PROYECCIONES pr ON s.codigo = pr.sala GROUP BY s.nombre;
+
+SELECT p.nombre AS Pelicula FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula JOIN SALAS s ON pr.sala = s.codigo WHERE s.nombre IN ('África', 'Europa') GROUP BY p.nombre HAVING COUNT(DISTINCT s.nombre) = 2;
+
+SELECT p.nombre AS Pelicula, COUNT(pr.pelicula) AS Vistas FROM PELICULAS p LEFT JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nombre ORDER BY Vistas DESC;
+
+SELECT pr.*, s.capacidad - pr.ocupacion AS EntradasDisponibles FROM PROYECCIONES pr JOIN SALAS s ON pr.sala = s.codigo WHERE s.capacidad - pr.ocupacion > 0;
+
+SELECT pr.sala, pr.pelicula, pr.hora, (s.capacidad - pr.ocupacion) AS EntradasDisponibles FROM PROYECCIONES pr JOIN SALAS s ON pr.sala = s.codigo;
+
+ALTER TABLE PELICULAS ADD precio_entrada DECIMAL(5, 2);
+
+ALTER TABLE SALAS ADD planta VARCHAR(10);
+
+ALTER TABLE SALAS MODIFY capacidad DECIMAL(5, 2);
+
+UPDATE PROYECCIONES SET ocupacion = ocupacion + 15 WHERE sala = 'S1' AND pelicula = 'P1' AND hora = '12:00';
+
+INSERT INTO PROYECCIONES (sala, pelicula, hora, ocupacion) VALUES ('S4', 'P4', '00:00', 0);
+
+SELECT s.nombre AS Sala, SUM(pr.ocupacion) AS TotalPersonas FROM SALAS s LEFT JOIN PROYECCIONES pr ON s.codigo = pr.sala GROUP BY s.nombre ORDER BY TotalPersonas;
+
+SELECT pr.sala, pr.pelicula, pr.hora, (s.capacidad - pr.ocupacion) AS EntradasDisponibles FROM PROYECCIONES pr JOIN SALAS s ON pr.sala = s.codigo WHERE s.capacidad - pr.ocupacion > 0 ORDER BY EntradasDisponibles DESC;
+
+SELECT s.nombre AS Sala, SUM(pr.ocupacion) AS TotalPersonas FROM SALAS s LEFT JOIN PROYECCIONES pr ON s.codigo = pr.sala GROUP BY s.nombre HAVING SUM(pr.ocupacion) > 300;
+
+SELECT p.nacionalidad AS Nacionalidad, SUM(pr.ocupacion * 6.5) AS Recaudacion FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nacionalidad HAVING SUM(pr.ocupacion * 6.5) > 2000;
+
+SELECT p.nombre AS Pelicula, SUM(pr.ocupacion * 6.5) AS RecaudacionPotencial FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nombre;
+
+SELECT p.nombre AS Pelicula, SUM(pr.ocupacion * 6.5) AS RecaudacionPotencial FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.nombre HAVING SUM(pr.ocupacion * 6.5) > 3000;
+
+SELECT p.calificacion AS Categoria, SUM(pr.ocupacion) AS EntradasVendidas FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula GROUP BY p.calificacion;
+
+SELECT p.nombre AS Pelicula, SUM(s.capacidad - pr.ocupacion) AS EntradasDisponibles FROM PELICULAS p JOIN PROYECCIONES pr ON p.codigo = pr.pelicula JOIN SALAS s ON pr.sala = s.codigo GROUP BY p.nombre HAVING SUM(s.capacidad - pr.ocupacion) > 300;
+
+ALTER TABLE PROYECCIONES ADD hora_finalizacion TIME;
+
+ALTER TABLE SALAS MODIFY filas INT(5);
+
+DELETE FROM SALAS WHERE codigo IN (SELECT DISTINCT sala FROM PROYECCIONES pr JOIN PELICULAS p ON pr.pelicula = p.codigo WHERE p.calificacion = 'TP');
+
+ALTER TABLE PELICULAS DROP COLUMN nacionalidad;
+
+ALTER TABLE PELICULAS ADD duracion TIME;
+
+UPDATE PELICULAS SET calificacion = 'NR-13' WHERE calificacion IS NULL;
+
+UPDATE PROYECCIONES SET hora = '12:30' WHERE hora = '12:00';

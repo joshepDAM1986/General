@@ -1,0 +1,19 @@
+a)
+
+SELECT cTitulo
+	FROM TLibro
+	WHERE nAnyoPublicacion = 1970
+		INTERSECT
+SELECT cTitulo
+	FROM TLibro
+	WHERE nAnyoPublicacion = 1989;
+
+b)
+
+SELECT cNombre, cApellidos
+	FROM TSocio
+	WHERE dAlta BETWEEN '01/01/2012' AND '31/12/2012'
+		UNION
+SELECT cNombre, cApellidos
+	FROM TSocio
+	WHERE dAlta BETWEEN '01/01/2013' AND '31/12/2013';

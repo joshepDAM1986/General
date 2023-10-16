@@ -1,0 +1,299 @@
+Base de datos cliente:
+
+[
+  {
+
+  "cliente": "11",
+
+  "cantidad": 20,
+
+  "producto": "Piña",
+
+  "fecha": ISODate("2022-10-19T16:36:14.197Z")
+
+},{
+
+  "cliente": "11",
+
+  "cantidad": 10,
+
+  "producto": "Piña",
+
+  "fecha": ISODate("2023-01-20T16:36:14.197Z")
+
+},{
+
+  "cliente": "22",
+
+  "cantidad": 30,
+
+  "producto": "Piña",
+
+  "fecha": ISODate("2023-05-10T16:36:14.197Z")
+
+},{
+
+  "cliente": "11",
+
+  "cantidad": 50,
+
+  "producto": "Plátano",
+
+  "fecha": ISODate("2023-02-11T16:36:14.197Z")
+
+},{
+
+  "cliente": "22",
+
+  "cantidad": 30,
+
+  "producto": "Piña",
+
+  "fecha": ISODate("2023-04-19T16:36:14.197Z")
+
+},{
+
+  "cliente": "33",
+
+  "cantidad": 25,
+
+  "producto": "Piña",
+
+  "fecha": ISODate("2022-12-01T16:36:14.197Z")
+
+}
+]
+
+- Consultar todas las ventas de piña...
+db.cliente.aggregate([ { $match: { producto: "Piña" } }, { $group: { _id: "$cliente", totalVentas: { $sum: "$cantidad" } } } ])
+[
+  { _id: '22', totalVentas: 60 },
+  { _id: '33', totalVentas: 25 },
+  { _id: '11', totalVentas: 30 }
+]
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Base de datos Peliculas:
+
+[
+  {
+    "Título": "La La Land",
+    "Año": 2016,
+    "Categoría": "CF",
+    "Actores": ["Ryan Gosling", "Emma Stone"]
+  },
+  {
+    "Título": "Inception",
+    "Año": 2010,
+    "Categoría": "Acción",
+    "Actores": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]
+  },
+  {
+    "Título": "Interstellar",
+    "Año": 2014,
+    "Categoría": "CF",
+    "Actores": ["Matthew McConaughey", "Anne Hathaway"]
+  },
+  {
+    "Título": "The Notebook",
+    "Año": 2004,
+    "Categoría": "Romance",
+    "Actores": ["Ryan Gosling", "Rachel McAdams"]
+  },
+  {
+    "Título": "The Dark Knight",
+    "Año": 2008,
+    "Categoría": "Acción",
+    "Actores": ["Christian Bale", "Heath Ledger"]
+  }
+]
+
+- Consultar todas las peliculas de una categoria. titulo, categoria y ordenadas por titulo...
+db.peliculas.find({ "Categoría": "CF" }, { "Título": 1, "Categoría": 1 }).sort({ "Título": 1 })
+[
+  {
+    _id: ObjectId("6486cab754f97a2ff79864e4"),
+    'Título': 'Interstellar',
+    'Categoría': 'CF'
+  },
+  {
+    _id: ObjectId("6486cab754f97a2ff79864e2"),
+    'Título': 'La La Land',
+    'Categoría': 'CF'
+  }
+]
+
+- Listar todas las películas que tienen al actor principal, mostrando Título y categoría. Ordenar por título.
+db.peliculas.find({ "Actores": "Ryan Gosling" }, { "Título": 1, "Categoría": 1 }).sort({ "Título": 1 })
+[
+  {
+    _id: ObjectId("6486cab754f97a2ff79864e2"),
+    'Título': 'La La Land',
+    'Categoría': 'CF'
+  },
+  {
+    _id: ObjectId("6486cab754f97a2ff79864e5"),
+    'Título': 'The Notebook',
+    'Categoría': 'Romance'
+  }
+]
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Base de datos amigos:
+[
+  {
+    "Nombre": "Luís",
+    "Apellidos": "Martínez",
+    "Edad": 18,
+    "Aficiones": ["fútbol", "senderismo", "tenis"],
+    "Amigos": [
+      {
+        "Nombre": "Mónica",
+        "Edad": 20
+      },
+      {
+        "Nombre": "Andrés",
+        "Edad": 24
+      }
+    ]
+  },
+  {
+    "Nombre": "Marisa",
+    "Apellidos": "García",
+    "Edad": 18,
+    "Aficiones": ["senderismo", "tenis", "pintura"],
+    "Amigos": [
+      {
+        "Nombre": "Mónica",
+        "Edad": 20
+      }
+    ]
+  },
+  {
+    "Nombre": "Joaquín",
+    "Apellidos": "Rodriguez",
+    "Edad": 18,
+    "Aficiones": ["fútbol", "natación"],
+    "Amigos": [
+      {
+        "Nombre": "Andrés",
+        "Edad": 24
+      }
+    ]
+  },
+  {
+    "Nombre": "Luís",
+    "Apellidos": "Martínez",
+    "Edad": 28,
+    "Aficiones": ["natación", "culturismo"],
+    "Amigos": [
+      {
+        "Nombre": "Juan",
+        "Edad": 40
+      },
+      {
+        "Nombre": "Antonio",
+        "Edad": 52
+      }
+    ]
+  },
+  {
+    "Nombre": "Laura",
+    "Apellidos": "González",
+    "Edad": 22,
+    "Aficiones": ["pintura", "baile"],
+    "Amigos": [
+      {
+        "Nombre": "Sofía",
+        "Edad": 24
+      },
+      {
+        "Nombre": "Carlos",
+        "Edad": 23
+      }
+    ]
+  }
+]
+
+- Crear una nueva persona, con los siguientes datos: Carlos Fernández, 25 años, aficionado al fútbol y al tenis. Amigo de Juan(26) y Laura (24).
+db.amigos.insertOne({"Nombre": "Carlos","Apellidos": "Fernández","Edad": 25,"Aficiones": ["fútbol", "tenis"],"Amigos": [{"Nombre": "Juan","Edad": 26},{"Nombre": "Laura","Edad": 24}]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6486d0004821008cfa5b6057")
+}
+
+- Actualizar las aficiones de Laura a pintura y tenis.
+db.amigos.updateOne({ "Nombre": "Laura" },{ $set: { "Aficiones": ["pintura", "tenis"] } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+prueba> db.amigos.find({ "Nombre": "Laura" })
+[
+  {
+    _id: ObjectId("6486cf2754f97a2ff79864ed"),
+    Nombre: 'Laura',
+    Apellidos: 'González',
+    Edad: 22,
+    Aficiones: [ 'pintura', 'tenis' ],
+    Amigos: [ { Nombre: 'Sofía', Edad: 24 }, { Nombre: 'Carlos', Edad: 23 } ]
+  }
+]
+- Eliminar a Luis Martínez (el de 28 años).
+db.amigos.deleteOne({ "Nombre": "Luís", "Apellidos": "Martínez", "Edad": 28 })
+{ acknowledged: true, deletedCount: 1 }
+
+- Listar todos los documentos de la colección, ordenados por apellido. Mostrar nombre, apellidos y aficiones
+db.amigos.find({}, { "Nombre": 1, "Apellidos": 1, "Aficiones": 1 }).sort({ "Apellidos": 1 })
+[
+  {
+    _id: ObjectId("6486d0004821008cfa5b6057"),
+    Nombre: 'Carlos',
+    Apellidos: 'Fernández',
+    Aficiones: [ 'fútbol', 'tenis' ]
+  },
+  {
+    _id: ObjectId("6486cf2754f97a2ff79864ea"),
+    Nombre: 'Marisa',
+    Apellidos: 'García',
+    Aficiones: [ 'senderismo', 'tenis', 'pintura' ]
+  },
+  {
+    _id: ObjectId("6486cf2754f97a2ff79864ed"),
+    Nombre: 'Laura',
+    Apellidos: 'González',
+    Aficiones: [ 'pintura', 'tenis' ]
+  },
+  {
+    _id: ObjectId("6486cf2754f97a2ff79864e9"),
+    Nombre: 'Luís',
+    Apellidos: 'Martínez',
+    Aficiones: [ 'fútbol', 'senderismo', 'tenis' ]
+  },
+  {
+    _id: ObjectId("6486cf2754f97a2ff79864eb"),
+    Nombre: 'Joaquín',
+    Apellidos: 'Rodriguez',
+    Aficiones: [ 'fútbol', 'natación' ]
+  }
+]
+
+- Número de personas mayores de 20 años.
+ db.amigos.aggregate([{$match: {Edad: { $gt: 20 }}},{$count: "Total"}])
+[ { Total: 2 } ]
+
+- Amigos de todas las personas con apellido García. Mostrar nombre y apellidos. Ordenados por apellidos.
+prueba> db.amigos.find({ "Apellidos": "García" },{ "Amigos.Nombre": 1, "Amigos.Apellidos": 1, "_id": 0 }).sort({ "Amigos.Apellidos": 1 })
+[{ Amigos: [ { Nombre: 'Mónica' } ] }]
+
+- Listar las personas aficionadas al tenis. Mostrar nombre y apellidos. Ordenados por apellidos.
+db.amigos.find({ "Aficiones": "tenis" },{ "Nombre": 1, "Apellidos": 1, "_id": 0 }).sort({ "Apellidos": 1 })
+[
+  { Nombre: 'Carlos', Apellidos: 'Fernández' },
+  { Nombre: 'Marisa', Apellidos: 'García' },
+  { Nombre: 'Laura', Apellidos: 'González' },
+  { Nombre: 'Luís', Apellidos: 'Martínez' }
+]

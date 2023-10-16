@@ -1,0 +1,235 @@
+Registro SQL_Developer
+------------------------
+DECLARE
+vmensaje VARCHAR2(40);
+vfecha DATE;
+
+BEGIN
+
+vfecha := current_date;
+select ctitulo
+    into vmensaje
+    from tlibro
+    where nlibroid=1;
+
+DBMS_OUTPUT.PUT_LINE(vmensaje||' '||vfecha);
+
+END;
+
+Fray Perico y su borrico (Alfag) 06/03/23
+
+Procedimiento PL/SQL terminado correctamente.
+
+DECLARE
+
+vmensaje VARCHAR2(40);
+CURSOR curlibros IS SELECT ctitulo FROM tlibro;
+
+BEGIN
+
+OPEN curlibros;
+        FETCH curlibros INTO vmensaje;
+        DBMS_OUTPUT.PUT_LINE(vmensaje);
+CLOSE curlibros;
+    
+END;
+
+Fray Perico y su borrico (Alfag)
+Procedimiento PL/SQL terminado correctamente.
+
+
+DECLARE
+
+vmensaje VARCHAR2(40);
+CURSOR curlibros IS SELECT ctitulo FROM tlibro;
+
+BEGIN
+
+OPEN curlibros;
+    FETCH curlibros INTO vmensaje;
+        WHILE curlibros%FOUND LOOP
+            DBMS_OUTPUT.PUT_LINE(vmensaje);
+            FETCH curlibros INTO vmensaje;
+        END LOOP;
+CLOSE curlibros;
+    
+END;
+
+Fray Perico y su borrico (Alfag)
+El se¤or de los marranillos
+Harry Plotter 1
+Kamasutra
+Lo que el viento no se pudo llevar
+Guia del autoestopista galactico
+
+Procedimiento PL/SQL terminado correctamente.
+
+DECLARE
+
+vmensaje VARCHAR2(40);
+vmensaje2 VARCHAR2(40);
+vmensaje3 VARCHAR2(40);
+
+CURSOR curlibros IS SELECT ctitulo,nlibroid,nanyopublicacion FROM tlibro;
+
+BEGIN
+
+OPEN curlibros;
+    FETCH curlibros INTO vmensaje,vmensaje2,vmensaje3;
+        WHILE curlibros%FOUND LOOP
+            DBMS_OUTPUT.PUT_LINE(vmensaje||' '||vmensaje2||' '||vmensaje3);
+            FETCH curlibros INTO vmensaje,vmensaje2,vmensaje3;
+        END LOOP;
+CLOSE curlibros;
+    
+END;
+
+Fray Perico y su borrico (Alfag) 1 1940
+El se¤or de los marranillos 2 2000
+Harry Plotter 1 3 1980
+Kamasutra 4 1351
+Lo que el viento no se pudo llevar 5 1923
+Guia del autoestopista galactico 7 1956
+
+Procedimiento PL/SQL terminado correctamente.
+
+DECLARE
+
+vnlibroid NUMERIC(5);
+vctitulo VARCHAR2(40); 
+vnanyopublicacion NUMERIC(5);
+veditorial NUMERIC(5);
+
+CURSOR curlibros IS SELECT nlibroid,ctitulo,nanyopublicacion,neditoriaid FROM tlibro where nanyopublicacion < 1980;
+
+BEGIN
+
+OPEN curlibros;
+    FETCH curlibros INTO vnlibroid,vctitulo,vnanyopublicacion,veditorial;
+        WHILE curlibros%FOUND LOOP
+            DBMS_OUTPUT.PUT_LINE(vnlibroid||' '||vctitulo||' '||vnanyopublicacion||' '||veditorial);
+            FETCH curlibros INTO vnlibroid,vctitulo,vnanyopublicacion,veditorial;
+        END LOOP;
+CLOSE curlibros;
+    
+END;
+
+1 Fray Perico y su borrico (Alfag) 1940 1
+4 Kamasutra 1351 
+5 Lo que el viento no se pudo llevar 1923 1
+7 Guia del autoestopista galactico 1956 2
+
+Procedimiento PL/SQL terminado correctamente.
+
+DECLARE
+
+vnlibroid NUMERIC(5);
+vctitulo VARCHAR2(40); 
+vnanyopublicacion NUMERIC(5);
+veditorial NUMERIC(5);
+
+CURSOR curlibros IS SELECT ctitulo,nlibroid,nanyopublicacion,neditoriaid FROM tlibro where nanyopublicacion < 1980 AND nlibroid = 4;
+
+BEGIN
+
+OPEN curlibros;
+    FETCH curlibros INTO vctitulo,vnlibroid,vnanyopublicacion,veditorial;
+        WHILE curlibros%FOUND LOOP
+            DBMS_OUTPUT.PUT_LINE(vnlibroid||' '||vctitulo||' '||vnanyopublicacion||' '||veditorial);
+            FETCH curlibros INTO vctitulo,vnlibroid,vnanyopublicacion,veditorial;
+        END LOOP;
+CLOSE curlibros;
+    
+END;
+
+4 Kamasutra 1351 
+
+Procedimiento PL/SQL terminado correctamente.
+
+DECLARE
+
+vnlibroid NUMERIC(5);
+vctitulo VARCHAR2(40); 
+vnanyopublicacion NUMERIC(5);
+veditorial NUMERIC(5);
+
+CURSOR curlibros IS SELECT ctitulo,nlibroid FROM tlibro;
+
+BEGIN
+
+OPEN curlibros;
+    FETCH curlibros INTO vctitulo,vnlibroid;
+        WHILE curlibros%FOUND LOOP
+        if INTEGER(vnlibroid / 2)* 2 = vnlibroid then
+            DBMS_OUTPUT.PUT_LINE('El id es par');
+        else
+             DBMS_OUTPUT.PUT_LINE('El id es impar');
+        end if;
+            FETCH curlibros INTO vctitulo,vnlibroid;
+        END LOOP;
+CLOSE curlibros;
+    
+END;
+
+El id es inpar
+El id es par
+El id es inpar
+El id es par
+El id es inpar
+El id es inpar
+
+Procedimiento PL/SQL terminado correctamente.
+
+DECLARE 
+
+varnlibroID number(3);
+varctitulo varchar2(40);
+varcsignatura varchar2(9);
+vardprestamo date;
+varcnif varchar2(10);
+varcnombresocio varchar2(52);
+
+CURSOR curtlibro IS SELECT nlibroID, ctitulo 
+                                    FROM tlibro
+                                    ORDER BY ctitulo;
+CURSOR curtejemplar IS SELECT csignatura
+                                    FROM tejemplar
+                                    WHERE nlibroID = varnlibroID;
+CURSOR curtprestamos IS SELECT dprestamo, cnif
+                                    FROM tprestamo
+                                    WHERE csignatura = varcsignatura;
+CURSOR curttsocio IS SELECT capellidos ||', '||cnombre
+                                    FROM tsocio
+                                    WHERE cnif = varcnif;                                    
+
+BEGIN
+DBMS_OUTPUT.PUT_LINE('LIBRO                                 FETCH_PRES                          SOCIO');
+DBMS_OUTPUT.PUT_LINE('===============================================================================');
+OPEN CURTLIBRO;
+    LOOP
+        FETCH curtlibro INTO varnlibroID, varctitulo;
+        EXIT WHEN curtlibro%NOTFOUND;
+        OPEN CURTEJEMPLAR;
+        LOOP
+            FETCH curtejemplar INTO varcsignatura;
+            DBMS_OUTPUT.PUT_LINE('                                                                     '||varcsignatura);
+            EXIT WHEN curtejemplar%NOTFOUND;
+            
+        
+        OPEN CURTPRESTAMOS;
+            LOOP
+                FETCH curtprestamos INTO vardprestamo, varcnif;
+                EXIT WHEN curtprestamos%NOTFOUND;
+                SELECT cnombre||' '||capellidos
+                    INTO varcnombresocio
+                    FROM tsocio
+                    WHERE cnif=varcnif;
+                    DBMS_OUTPUT.PUT_LINE('                            '||TO_CHAR(vardprestamo, 'DD/MM/YYYY')||' '||varcnombresocio);
+                END LOOP;
+        CLOSE CURTPRESTAMOS;
+        END LOOP;
+        CLOSE CURTEJEMPLAR;
+        DBMS_OUTPUT.PUT_LINE(varctitulo);
+    END LOOP;
+CLOSE CURTLIBRO;
+END;

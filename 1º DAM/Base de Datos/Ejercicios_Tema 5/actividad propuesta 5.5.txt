@@ -1,0 +1,37 @@
+a)
+
+SELECT TTema.cNombre, TLibro.cTitulo
+	FROM TTema
+	LEFT JOIN TLibroTema
+		ON TTema.nTemaID = TLibroTema.nTemaID
+	LEFT JOIN TLibro
+		ON TLibroTema.nLibroID = TLibro.nLibroID
+	ORDER BY TTema.cNombre;
+
+b)
+
+SELECT TSocio.cNombre, TSocio.cApellidos, TLibro.cTitulo
+	FROM TSocio
+	LEFT JOIN TPrestamo
+		ON TSocio.cNIF = TPrestamo.cNIF 
+			AND TPrestamo.dPrestamo BETWEEN '01/01/2013' AND '31/12/2013'
+	LEFT JOIN TEjemplar
+		ON TPrestamo.cSignatura = TEjemplar.cSignatura
+	LEFT JOIN TLibro
+		ON TEjemplar.nLibroID = TLibro.nLibroID
+	WHERE TSocio.dAlta BETWEEN '01/01/2013' AND '31/12/2013'
+	ORDER BY cApellidos, cNombre;
+
+c)
+
+SELECT TAutor.cNombre, TAutor.cApellidos, TLibro.cTitulo, TPais.cNombre
+	FROM TAutor
+	LEFT JOIN TLibroAutor
+		ON TAutor.nAutorID = TLibroAutor.nAutorID
+	LEFT JOIN TLibro
+		ON TLibroAutor.nLibroID = TLibro.nLibroID
+	LEFT JOIN TAutorPais
+		ON TAutor.nAutorID = TAutorPais.nAutorID
+	LEFT JOIN TPais
+		ON TAutorPais.nPaisID = TPais.nPaisID
+	ORDER BY TAutor.cNombre, TAutor.cApellidos;

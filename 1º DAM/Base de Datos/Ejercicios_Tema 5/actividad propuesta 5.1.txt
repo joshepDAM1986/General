@@ -1,0 +1,28 @@
+a) 
+
+SELECT * 
+	FROM TSocio
+	WHERE cNombre LIKE 'Jacinto%'
+		AND dNacimineto < '01/01/1970'
+		AND dAlta BETWEEN '01/01/1990' AND '31/12/1999';
+
+b)
+
+SELECT *
+	FROM TLibro
+	WHERE NOT (nEditorialID = 15 OR nEditorialID = 32)
+		OR nAnyoPublicacion < 2000;
+
+c) 
+
+SELECT cNombre, cApellidos
+	FROM TSocio
+	WHERE cTelefono IS NOT NULL
+		AND cDireccion IS NULL;
+
+d)
+
+SELECT *
+	FROM TAutor
+	WHERE cApellido = 'Byatt'
+		AND cNombre LIKE 'A%S%';

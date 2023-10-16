@@ -1,0 +1,30 @@
+wa)
+
+SELECT COUNT(*)
+	FROM TLibro
+	WHERE nAnyoPublicacion = 1993
+		AND nEditorialID = 3;
+
+b)
+
+SELECT COUNT(*)
+	FROM TPrestamo
+	WHERE cNIF = '50687452Y'
+	GROUP BY dPrestamo
+		HAVING dPrestamo BETWEEN '01/01/2014' AND '31/12/2014';
+
+c)
+
+SELECT dPrestamo, COUNT(*)
+	FROM TPrestamo
+	WHERE cNIF = '50687452Y'
+	GROUP BY dPrestamo
+		HAVING dPrestamo BETWEEN '01/01/2014' AND '31/12/2014'
+			AND COUNT(*) > 2;
+
+d)
+
+SELECT *
+	FROM TSocio
+	ORDER BY dAlta DESC, cApellidos, cNombre;
+

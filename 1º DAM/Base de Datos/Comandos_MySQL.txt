@@ -1,0 +1,197 @@
+SELECT
+    nombre,
+    DATE_FORMAT(fecha_inicio, '%d/%m/%Y') Inicio,
+    DATE_FORMAT(fecha_fin, '%d/%m/%Y') Fin
+FROM
+    reserva                
+WHERE
+    YEAR(fecha_inicio) = '2022';
+	
+	
+	SELECT
+    *
+FROM
+    reserva
+WHERE
+    fecha_inicio > '2021-10-05';
+
+
+SELECT
+    *
+FROM
+    reserva
+WHERE
+    fecha_inicio > '2021-10-05'
+LIMIT 5;
+
+
+SELECT
+    *
+FROM
+    reserva
+WHERE
+    fecha_inicio > '2021-10-05'
+ORDER BY
+    fecha_inicio
+LIMIT 5;
+
+
+SELECT
+    hotel.nombre,
+    COUNT(reserva.codigo)
+FROM
+    hotel
+LEFT JOIN reserva ON hotel.id = reserva.hotel_id
+GROUP BY
+    hotel.id;
+	
+
+SELECT
+    hotel.nombre nombre_hotel,
+    IFNULL(reserva.codigo, "N/A") codigo,
+    IFNULL(reserva.nombre, "N/A") cliente
+FROM
+    hotel
+LEFT JOIN reserva ON hotel.id = reserva.hotel_id;
+
+
+
+SELECT
+    hotel.nombre Hotel,
+    COUNT(reserva.codigo) Reservas
+FROM
+    hotel
+LEFT JOIN reserva ON hotel_id
+GROUP BY
+    hotel.id;
+
+
+	
+SELECT
+    hotel.nombre Hotel,
+    reserva.nombre Cliente,
+    reserva.telefono Telefono,
+    reserva.email Email,
+    reserva.fecha_inicio Inicio,
+    reserva.fecha_fin Fin
+FROM
+    hotel
+JOIN reserva ON hotel.id = reserva.hotel_id
+ORDER BY
+    hotel.nombre,
+    reserva.nombre;
+	
+SELECT
+    hotel.nombre Hotel,
+    reserva.nombre Cliente,
+    reserva.telefono Telefono,
+    reserva.email Email,
+    reserva.fecha_inicio Inicio_Reserva,
+    reserva.fecha_fin Fin_Reserva
+FROM
+    hotel
+JOIN reserva ON hotel.id = reserva.hotel_id
+WHERE
+    precio >(
+    SELECT
+        AVG(precio)
+    FROM
+        reserva
+)
+ORDER BY
+    hotel.nombre,
+    reserva.nombre;
+
+
+consulta 1:
+
+SELECT reserva.*
+FROM reserva
+JOIN hotel ON reserva.hotel_id = hotel.id
+WHERE reserva.precio IN (
+  SELECT MIN(precio)
+  FROM reserva
+  WHERE hotel_id = hotel.id
+);
+-------------------------------------------
+SELECT
+    codigo,
+    hotel.nombre,
+    MIN(precio)
+FROM
+    hotel
+JOIN reserva ON hotel.id = reserva.hotel_id
+GROUP BY
+    hotel.nombre;
+
+Consula 2: 
+
+SELECT *
+FROM reserva
+WHERE fecha_inicio >= '2022-01-01'
+  AND fecha_inicio <= '2022-12-31'
+  AND precio > (
+    SELECT AVG(precio)
+    FROM reserva
+    WHERE fecha_inicio >= '2022-01-01'
+      AND fecha_inicio <= '2022-12-31'
+  );
+  
+Consulta 3:
+
+SELECT
+    hotel.nombre,
+    COUNT(*) num_reservas
+FROM
+    hotel
+JOIN reserva ON hotel.id = reserva.hotel_id
+WHERE
+    YEAR(reserva.fecha_inicio) = 2021
+GROUP BY
+    hotel.nombre
+ORDER BY
+    num_reservas DESC;
+	
+Consulta 3 mostrando hoteles sin reserva con 0
+
+SELECT
+    hotel.nombre,
+    COUNT(reserva.codigo) Numero_Reservas
+FROM
+    hotel
+LEFT JOIN reserva ON hotel.id = reserva.hotel_id AND YEAR(reserva.fecha_inicio) = 2021
+GROUP BY
+    hotel.nombre;
+	
+Counsulta 4
+
+SELECT
+    hotel.nombre,
+    YEAR(reserva.fecha_inicio) Año,
+    AVG(reserva.precio) Media_Recaudacion
+FROM
+    hotel
+LEFT JOIN reserva ON hotel.id = reserva.hotel_id
+GROUP BY
+    hotel.nombre,
+    YEAR(reserva.fecha_inicio)
+ORDER BY
+    hotel.nombre,
+    YEAR(reserva.fecha_inicio);
+	
+Consulta 5
+
+SELECT
+    hotel.nombre hotel,
+    MAX(reserva.precio) reserva_mas_cara,
+    MIN(reserva.precio) reserva_mas_barata
+FROM
+    hotel
+LEFT JOIN reserva ON
+    hotel.id = reserva.hotel_id
+GROUP BY
+    hotel.id
+ORDER BY
+	hotel.nombre;
+
+

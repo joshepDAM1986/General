@@ -1,0 +1,24 @@
+a)
+
+SELECT cNombre, cApellidos
+	FROM TSocio
+		WHERE dAlta = (
+			SELECT MIN(dAlta)
+				FROM TSocio
+		);
+
+b)
+
+SELECT TLibro.nAnyoPublicacion, COUNT(*)
+	FROM TLibro, TEditorial
+	WHERE TLibro.nEditorialID = TEditorial.nEditorialID 
+		AND TEditorial.nEditorialID IN (
+			SELECT TEditorial.nEditorialID
+			FROM TEditorial, TPais, TAutorPais
+			WHERE TEditorial.nPaisID = TPais.nPaisID
+				AND TPais.nPaisID = TAutorPais.nPaisID
+			GROUP BY TAutorPais.nPaisID, TEditorial.nEditorialID
+				HAVING COUNT(*) >= 3
+		)
+	GROUP BY TLibro.nAnyoPublicacion;
+	

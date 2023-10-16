@@ -1,0 +1,23 @@
+xpath command:
+
+muestra la marca de todos los coches
+/concesionario/coche/marca 
+//marca
+
+muestra el precio de los coches de marca Volkswagen
+//coche[marca="Volkswagen"]/precio
+
+muesra lod datos del penultimo coche
+/concesionario/coche[last()-1]
+
+muestra el modelo del ultimo coche
+/concesionario/coche[last()]/modelo
+
+mostrar el precio del segundo coche
+/concesionario/coche[2]/precio
+
+precio de todas las especies de litchi
+/vivero/especie[nombre='Litchi']/precio/
+
+lichis con precios mayores 	que 9
+/vivero/especie[nombre='Litchi' and precio > 9]

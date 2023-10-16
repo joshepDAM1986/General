@@ -1,0 +1,117 @@
+1)
+
+	a)
+
+	SELECT cTitulo
+		FROM TLibro
+			WHERE dAnyoPublicacion BETWEEN '01/01/1926' AND '31/12/1978'
+				AND nEditorialID <> 32; 
+
+	b)
+
+	SELECT cNombre, cApellidos
+		FROM TSocio
+			WHERE dAlta > '31/12/2009'
+				AND cDireccion IS NOT NULL;
+
+	c)
+
+	SELECT DISTINCT nPaisID
+		FROM TEditorial;
+
+	(Con nombres)
+	SELECT DISTINCT TPais.cNombre
+		FROM TEditorial, TPais
+			WHERE TEditorial.nPaisID = TPais.nPaisID;
+
+2)
+
+	a) 
+
+	SELECT cTitulo
+		FROM TLibro
+			WHERE cTitulo LIKE 'Guía%'
+				AND nEditorialID NOT IN (SELECT nEditorialID
+								FROM TEditorial
+								WHERE cNombre = 'Alfaguara');
+	b)
+	
+	SELECT DISTINCT TTema.cNombre
+		FROM TTema, TLibro, TLibroTema, TEditorial
+			WHERE TEditorial.cNombre='Alfaguara'
+				AND TLibro.nEditorialID = TEditorial.nEditorialID
+				AND TLibroTema.nLibroID = TLibro.nLibroID
+				AND TTema.nTemaID = TLibroTema.nTemaID;
+
+	c)
+
+	SELECT TLibro.cTitulo
+		FROM TLibro, TEjemplar
+			WHERE TLibro.nLibroID = TEjemplar.nLibroID
+				AND TEjemplar.cSignatura NOT IN (SELECT DISTINCT TPrestamo.cSignatura 
+										FROM TPrestamo);
+
+3)
+
+	a)
+
+	SELECT TEditorial.cNombre AS "EDITORIAL", COUNT(*) AS "NUMERO DE LIBROS"
+		FROM TLibro, TEditorial
+			WHERE Tlibro.nEditorialID = TEditorial.nEditorialID
+			GROUP BY TEditorial.cNombre; 
+
+	b)
+
+	SELECT COUNT(DISTINCT cNIF) 
+		FROM TPrestamo
+			WHERE TPrestamo.dPrestamo BETWEEN '01/01/2013' AND '31/12/2013';
+
+	(forma alternativa)
+	SELECT COUNT(*) 
+		FROM TSocio
+		WHERE cNIF IN (SELECT cNIF 
+						FROM TPrestamo
+						WHERE substr(to_char(dprestamo, 'dd/mm/yyyy'), 7, 4) = '2013');
+
+	c)
+
+	SELECT TLibro.cTitulo, COUNT(TLibroAutor.nAutorID) AS "Número de autores"
+		FROM TLibro, TLibroAutor
+		WHERE TLibroAutor.nLibroID = TLibro.nLibroID
+		GROUP BY TLibro.cTitulo
+			HAVING COUNT(*) > 2;
+
+4)
+	INSERT INTO TTema 
+		VALUES (1, 'Historia');
+	INSERT INTO TTema		
+		VALUES (2, 'Biografía');
+	INSERT INTO TTema 
+		VALUES (3, 'Matemáticas');
+	INSERT INTO TTema
+		VALUES (4, 'Lengua');
+	INSERT INTO TTema
+		VALUES (5, 'Ficción');	
+
+	INSERT INTO TPrestamo 
+		VALUES ('123456789', '15474747P', '10/11/2020');
+	INSERT INTO TPrestamo 
+		VALUES ('123456789', '43434343H', '10/11/2021');
+	INSERT INTO TPrestamo 
+		VALUES ('123456789', '12121212H', '10/12/2011');
+	INSERT INTO TPrestamo 
+		VALUES ('123456780', '43543534O', '05/12/2011');
+	INSERT INTO TPrestamo 
+		VALUES ('123456780', '87878787P', '05/05/2015');
+	INSERT INTO TPrestamo 
+		VALUES ('123456780', '87878787P', '05/05/2013');
+	INSERT INTO TPrestamo 
+		VALUES ('123456789', '87878787P', '05/05/2013');
+
+5)
+	UPDATE TSocio
+		SET dAlta = '01/08/2014'
+		WHERE cDireccion IS NULL;
+
+
+
