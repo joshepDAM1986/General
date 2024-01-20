@@ -1,0 +1,64 @@
+2024-01-13T13:47:10.741954400 0.022301s notice: In recursion: removing file 'C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data\\tmp'
+2024-01-13T13:47:10.742734300 0.023079s warn: Trying to delete non-existent file 'C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data\\tmp'
+2024-01-13T13:47:10.746362300 0.026706s notice: Initializing directory C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data
+2024-01-13T13:47:10.747812700 0.028158s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory 'C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data' did not already exist or is empty.)
+2024-01-13T13:47:10.748096700 0.028440s notice: Running rethinkdb 2.4.2-11-g6613dc (Windows) (MSC 191627048)...
+2024-01-13T13:47:10.748244400 0.028588s notice: Running on 10.0.22621 (Windows 10, Server 2016)
+2024-01-13T13:47:10.748333900 0.028677s notice: Loading data from directory C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data
+2024-01-13T13:47:10.776891500 0.057235s info: Automatically using cache size of 1239 MB
+2024-01-13T13:47:10.783651300 0.063995s notice: Listening for intracluster connections on port 29015
+2024-01-13T13:47:10.785302200 0.065646s notice: Listening for client driver connections on port 28015
+2024-01-13T13:47:10.785367400 0.065710s notice: Listening for administrative HTTP connections on port 8080
+2024-01-13T13:47:10.785369200 0.065712s notice: Listening on cluster address: 127.0.0.1
+2024-01-13T13:47:10.785370600 0.065714s notice: Listening on driver address: 127.0.0.1
+2024-01-13T13:47:10.785371900 0.065715s notice: Listening on http address: 127.0.0.1
+2024-01-13T13:47:10.785373200 0.065716s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2024-01-13T13:47:10.785374900 0.065718s notice: Server ready, "JMGN_1fx" af57a88a-7680-4b7c-870f-fbea5f3f9a92
+2024-01-13T14:03:57.021990700 1006.302334s info: Table 1a6ea5f7-1006-4c24-a10f-c5b00dc83435: Starting a new Raft election for term 1.
+2024-01-13T14:03:57.022700600 1006.303044s info: Table 1a6ea5f7-1006-4c24-a10f-c5b00dc83435: Added replica on this server.
+2024-01-13T14:03:57.026508700 1006.306853s info: Table 1a6ea5f7-1006-4c24-a10f-c5b00dc83435: This server is Raft leader for term 1. Latest log index is 0.
+2024-01-13T14:11:09.339615100 1438.619959s info: Table 4385fd04-4014-418c-a60b-504f5ee4560b: Starting a new Raft election for term 1.
+2024-01-13T14:11:09.340031800 1438.620375s info: Table 4385fd04-4014-418c-a60b-504f5ee4560b: Added replica on this server.
+2024-01-13T14:11:09.343001500 1438.623345s info: Table 4385fd04-4014-418c-a60b-504f5ee4560b: This server is Raft leader for term 1. Latest log index is 0.
+2024-01-13T16:35:33.196927300 10102.477271s info: Table 114c97f5-467e-41a9-90d6-93d9095de93b: Starting a new Raft election for term 1.
+2024-01-13T16:35:33.197217700 10102.477561s info: Table 114c97f5-467e-41a9-90d6-93d9095de93b: Added replica on this server.
+2024-01-13T16:35:33.200422500 10102.480766s info: Table 114c97f5-467e-41a9-90d6-93d9095de93b: This server is Raft leader for term 1. Latest log index is 0.
+2024-01-13T16:38:22.170547900 10271.450892s notice: Removing file C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data\\1a6ea5f7-1006-4c24-a10f-c5b00dc83435
+2024-01-13T16:38:22.170558800 10271.450902s info: Table 1a6ea5f7-1006-4c24-a10f-c5b00dc83435: Deleted the table.
+2024-01-13T16:38:50.194010600 10299.474354s notice: Removing file C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data\\4385fd04-4014-418c-a60b-504f5ee4560b
+2024-01-13T16:38:50.194013000 10299.474356s info: Table 4385fd04-4014-418c-a60b-504f5ee4560b: Deleted the table.
+2024-01-13T17:37:40.172669600 13829.453013s notice: Removing file C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data\\114c97f5-467e-41a9-90d6-93d9095de93b
+2024-01-13T17:37:40.172678500 13829.453022s info: Table 114c97f5-467e-41a9-90d6-93d9095de93b: Deleted the table.
+2024-01-13T17:53:23.732863000 14773.013207s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: Starting a new Raft election for term 1.
+2024-01-13T17:53:23.733170800 14773.013514s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: Added replica on this server.
+2024-01-13T17:53:23.736294800 14773.016638s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: This server is Raft leader for term 1. Latest log index is 0.
+2024-01-13T18:19:58.798516300 0.028544s notice: Running rethinkdb 2.4.2-11-g6613dc (Windows) (MSC 191627048)...
+2024-01-13T18:19:58.798733500 0.028760s notice: Running on 10.0.22621 (Windows 10, Server 2016)
+2024-01-13T18:19:58.798841400 0.028867s notice: Loading data from directory C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data
+2024-01-13T18:19:58.810747500 0.040773s info: Automatically using cache size of 2773 MB
+2024-01-13T18:19:58.813335800 0.043362s notice: Listening for intracluster connections on port 29015
+2024-01-13T18:19:58.824761800 0.054788s notice: Listening for client driver connections on port 28015
+2024-01-13T18:19:58.824891000 0.054916s notice: Listening for administrative HTTP connections on port 8080
+2024-01-13T18:19:58.824893600 0.054919s notice: Listening on cluster address: 127.0.0.1
+2024-01-13T18:19:58.824899400 0.054925s notice: Listening on driver address: 127.0.0.1
+2024-01-13T18:19:58.824901200 0.054927s notice: Listening on http address: 127.0.0.1
+2024-01-13T18:19:58.824903000 0.054928s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2024-01-13T18:19:58.824904900 0.054930s notice: Server ready, "JMGN_1fx" af57a88a-7680-4b7c-870f-fbea5f3f9a92
+2024-01-13T18:20:00.725734400 1.955761s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: Starting a new Raft election for term 2.
+2024-01-13T18:20:00.730186400 1.960212s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: This server is Raft leader for term 2. Latest log index is 3.
+2024-01-13T18:20:31.746491500 32.976518s notice: Server got Close (End Task) Event; shutting down...
+2024-01-13T18:21:11.032670000 0.021125s notice: Running rethinkdb 2.4.2-11-g6613dc (Windows) (MSC 191627048)...
+2024-01-13T18:21:11.032877200 0.021330s notice: Running on 10.0.22621 (Windows 10, Server 2016)
+2024-01-13T18:21:11.032932300 0.021384s notice: Loading data from directory C:\\Users\\garci\\OneDrive\\Documentos\\_DAM\\2? DAM\\Acceso a Datos\\rethinkdb-2.4.3\\rethinkdb_data
+2024-01-13T18:21:11.042326900 0.030779s info: Automatically using cache size of 2755 MB
+2024-01-13T18:21:11.048238600 0.036691s notice: Listening for intracluster connections on port 29015
+2024-01-13T18:21:11.062031000 0.050483s notice: Listening for client driver connections on port 28015
+2024-01-13T18:21:11.062260700 0.050713s notice: Listening for administrative HTTP connections on port 8080
+2024-01-13T18:21:11.062263400 0.050715s notice: Listening on cluster address: 127.0.0.1
+2024-01-13T18:21:11.062264800 0.050717s notice: Listening on driver address: 127.0.0.1
+2024-01-13T18:21:11.062266200 0.050718s notice: Listening on http address: 127.0.0.1
+2024-01-13T18:21:11.062274800 0.050727s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2024-01-13T18:21:11.062276600 0.050728s notice: Server ready, "JMGN_1fx" af57a88a-7680-4b7c-870f-fbea5f3f9a92
+2024-01-13T18:21:12.259362900 1.247815s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: Starting a new Raft election for term 3.
+2024-01-13T18:21:12.264052700 1.252505s info: Table d187acce-6e68-4cc6-bf20-f989f37751a8: This server is Raft leader for term 3. Latest log index is 6.
+2024-01-13T18:21:27.197257300 16.185713s notice: Server got Close (End Task) Event; shutting down...

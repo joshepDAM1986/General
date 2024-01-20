@@ -1,0 +1,7 @@
+Requerimientos App Kotlin
+
+- menu
+
+- 3 actividades(pantallas)
+
+- 2 fragmentos (pantalla dividida en 2 partes)

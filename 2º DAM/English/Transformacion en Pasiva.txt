@@ -1,0 +1,10 @@
+1. Localizamos el complemento directo de la oración.
+		My father builds houses
+		
+2. Comenzamos con el CD: (houses)
+
+3. Localizamos el verbo: (builds)
+
+4. Transformamos el verbo según la tabla.
+
+5. Añadimos by + sujeto.

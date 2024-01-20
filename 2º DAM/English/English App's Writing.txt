@@ -1,0 +1,27 @@
+Login:
+
+This is our "Smart Car Compare" app
+It is an application that searches for supermarkets near your location and shows you a list
+of prices for each one so you can compare and decide where to make your purchase. To start we
+have a presentation on the screen with the logo and a button to enter. As in all applications today,
+we need to be registered and identified to be able to use the application. If we do not have an account
+we can create one by entering the required information in "create account". We confirm registration and will
+proceed to log in. If we already have an account and we forget the password we can recover it from "forgot password"
+where we can write our email and an email will be sent to you with instructions to change it."
+
+Main screen:
+
+Once the session has started, we will enter the main page where we are shown the supermarkets near you with a list of
+their products, their prices and your current location. Here we can select the supermarket by dragging the image with
+our finger and the price list will change to the corresponding one. We can see the complete list of products in "see
+all" and we can see our location on the map in the "top" part of the screen.
+
+Supermarket details
+
+We will go to the supermarket details screen where we can see a list of supermarkets available near you and their details
+such as their opening and closing hours and their location on the map.We can also see a more complete list in "see all"
+
+Account settings and details
+
+Here we can access the application settings where we can change the language. And rate the application.
+Finally, when we stop using the application we can log out and close the application.

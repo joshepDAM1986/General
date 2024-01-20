@@ -1,0 +1,211 @@
+Un hilo en Java se crea a partir de una clase:
+a.
+Que tiene un método main.
+b.
+Que tiene un método start
+c.
+Que no tiene métodos estáticos.
+d.
+Que implementa la interfaz Runnable. 
+
+
+
+
+Una diferencia entre los métodos notify y notifyAll…
+a.
+Es que el segundo puede producir interbloqueo, mientras que el primero no, porque permite la reanudación de un único hilo
+b.
+Es que el primero es seguro y el segundo no lo es
+c.
+Todas las respuestas son correctas 
+d.
+Es que el primero produce una excepción si hay más de un hilo a la espera en un objeto de bloqueo, mientras que el segundo no.
+e.
+Es que el segundo permite un mayor grado de concurrencia, al permitir la ejecución de más de un hilo de entre los que están en la cola de espera en un objeto de bloqueo
+
+
+
+
+Cuando un programa crea un objeto y lo pasa a varios hilos:
+a.
+Los cambios que realiza un hilo sobre el objeto son visibles para el resto de los hilos. 
+b.
+Los cambios que realiza un hilo sobre el objeto no son visibles para los otros objetos, porque se hacen sobre una copia local.
+c.
+Los cambios que haga cada hilo no los verán los otros hilos, porque se hacen sobre pila de cada hilo, y son independientes entre sí.
+d.
+Los cambios que realiza un hilo sobre el objeto son visibles para el resto de los hilos solo si se realizan en un método synchronized.
+
+
+
+
+Una clase thread-safe, o segura para su uso en un entorno multihilo
+a.
+Impone determinadas obligaciones a los hilos que la utilizan, para una correcta sincronización, cuando varios hilos que se ejecutan concurrentemente la utilizan misma instancia suya 
+b.
+No debe utilizar el método notify, sino que debe utilizar en su lugar notifyAll
+c.
+Suele utilizar internamente this como objeto de sincronización
+d.
+No debe tener métodos sincronizados con la opción throws InterruptedException
+e.
+Debe ser subclase de Thread o implementar la interfaz Runnable
+
+
+
+
+Los distintos hilos de un mismo proceso:
+a.
+Comparten código y datos. 
+b.
+Se lanzan todos al mismo tiempo.
+c.
+Comparten los registros del procesador.
+d.
+Tienen todos la misma prioridad, por ser hilos del mismo proceso.
+
+
+
+
+Los métodos wait, notify y notifyAll:
+a.
+Deben ejecutarse dentro de un bloque synchronized para el objeto sobre el que se ejecutan. 
+b.
+Solo se pueden utilizar en clases thread-safe.
+c.
+Ninguna de las respuestas anteriores es correcta.
+d.
+Solo se pueden ejecutar sobre objetos de tipo final.
+
+
+
+
+Si una clase no es thread-safe:
+a.
+No se puede utilizar en programas multihilo.
+b.
+Distintos hilos que comparten una instancia de esa clase deben utilizar mecanismos de sincronización para restringir la ejecución concurrente de métodos del objeto en distintos hilos. 
+c.
+Todos sus métodos deben ejecutarse en exclusión mutua.
+d.
+Sigue siendo segura la ejecución de sus métodos estáticos en un entorno multihilo.
+
+
+
+
+¿Qué pasa cuando a un objeto de bloqueo se le asigna un nuevo valor?
+a.
+No se puede asignar un nuevo valor a un objeto de bloqueo, por tener métodos sinchronized
+b.
+Ya no se aceptan más bloqueos sobre el mismo objeto
+c.
+Nada de particular, a cualquier objeto se le puede asignar un nuevo valor.
+d.
+Si el objeto no es de tipo final, se liberan todos los bloqueos existentes sobre dicho objeto. 
+e.
+Se liberan todos los bloqueos existentes sobre dicho objeto.
+
+
+
+
+Para que un hilo termine su ejecución lo antes posible
+a.
+Basta con verificar con frecuencia si el hilo ha sido interrumpido, con el método isInterrupted.
+b.
+Ninguna de las respuestas es correcta
+c.
+Basta con gestionar apropiadamente las excepciones de tipo InterruptedException en el método run, de manera que se termine su ejecución
+d.
+Se pueden utilizar los métodos isInterrupted o interrupted para verificar que se ha solicitado la interrupción del hilo, y debe hacerse en los bloques de gestión de excepciones de tipo InterruptedException 
+e.
+Basta con verificar con frecuencia si el hilo ha sido interrumpido, con el método interrupted.
+
+
+
+
+Cuando varios hilos necesitan cada uno utilizar varios objetos de bloqueo de un conjunto de objetos de bloqueo compartidos, ¿qué puede ocurrir?
+a.
+Se evita el interbloqueo si todos bloquean los objetos siguiendo siempre el mismo orden 
+b.
+Solo se puede producir el interbloqueo en un conjunto de más de dos hilos
+c.
+Solo se puede producir el interbloqueo entre dos hilos, no entre más de dos
+d.
+Solo se puede producir el interbloqueo con un conjunto de más de dos objetos compartidos
+e.
+Se puede producir interbloqueo si todos bloquean los objetos siguiendo siempre el mismo orden
+
+
+
+
+Los métodos wait, notify y notifyAll en Java
+a.
+Pueden producir una excepción de tipo InterruptedException
+b.
+Solo se pueden utilizar dentro de un bloque synchronized para el mismo objeto para el que se ejecutan. 
+c.
+Están obsoletos
+d.
+Ninguna de las respuestas anteriores es correcta
+e.
+Se pueden emplear en cualquier parte del código sobre cualquier objeto
+
+
+
+
+Un hilo de un programa en Java…
+a.
+Puede ejecutarse con diferentes prioridades
+b.
+Puede pausar su ejecución hasta que termine la ejecución de otro hilo del mismo programa
+c.
+Puede lanzar un nuevo hilo
+d.
+Todas las respuestas son correctas 
+e.
+Puede ignorar las peticiones de interrupción de otro hilo del mismo programa
+
+
+
+
+Los métodos wait, notify y notifyAll en Java
+a.
+Todas las respuestas son correctas 
+b.
+Deben ejecutarse dentro de un bloque synchronized
+c.
+Se usan para la sincronización de los hilos en el acceso a objetos compartidos, con espera no activa
+d.
+Deberían ejecutarse sobre un objeto de tipo final
+e.
+Son métodos de la clase Object
+
+
+
+
+¿Qué ocurre si una clase tiene varios métodos synchronized?
+a.
+Dos métodos synchronized distintos no pueden estar en ejecución a la vez en un mismo objeto de la clase 
+b.
+El mismo método synchronized no puede estar en ejecución a la vez en dos objetos distintos de la clase
+c.
+Se podrán ejecutar a la vez dos métodos synchronized, siempre que sean estáticos
+d.
+La ejecución de un método synchronized cuando otro se está ejecutando para el mismo objeto causará una excepción
+e.
+No puede haber más de un método synchronized en ejecución a la vez
+
+
+
+
+¿Cómo obtienen acceso varios hilos a un objeto de bloqueo que comparten?
+a.
+Mediante sus métodos synchronized 
+b.
+Se les pasa en el creador del hilo
+c.
+Directamente, porque están en la memoria compartida del proceso
+d.
+Todos los hilos pueden acceder a las variables globales de la clase que las crea
+e.
+Mediante un método de la clase Object que permite obtener el último objeto creado
